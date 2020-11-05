@@ -13,4 +13,4 @@ class OLV_MT_Main_Menu(bpy.types.Menu):
         # layout.label(text = 'OLV Tools')
 
         layout.menu('OLV_MT_Name_New_Project_Menu',
-                    text='Project', icon='FILEBROWSER')
+                    text='Project', icon='OUTLINER_OB_LATTICE')
