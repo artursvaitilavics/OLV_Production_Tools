@@ -13,3 +13,5 @@ class OLV_MT_Name_New_Project_Menu(bpy.types.Menu):
         # project_name = bpy.props.StringProperty(name='project name', default='')
         layout.operator('olv.create_new_project',
                         text='New Project', emboss=False, icon='FILE')
+
+        layout.operator('olv.create_project_file', text='Create Project File')
