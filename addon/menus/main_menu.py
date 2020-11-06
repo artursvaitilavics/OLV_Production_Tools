@@ -10,10 +10,12 @@ class OLV_MT_Main_Menu(bpy.types.Menu):
 
     def draw(self, context):
         layout = self.layout
-        # layout.operator_context = 'INVOKE_DEFAULT'
-        # layout.label(text = 'OLV Tools')
+
 
         layout.menu('OLV_MT_Name_New_Project_Menu',
                     text='Project', icon='OUTLINER_OB_LATTICE')
 
-        layout.menu('olv.global_settings_menu', text='Global Settings', icon='OPTIONS')
+        layout.menu('olv.global_settings_menu',
+                    text='Global Settings', icon='OPTIONS')
+
+        layout.menu('olv.object_menu', text='Objects', icon='OBJECT_DATAMODE')
