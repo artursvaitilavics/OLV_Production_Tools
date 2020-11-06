@@ -15,3 +15,4 @@ class OLV_MT_Name_New_Project_Menu(bpy.types.Menu):
                         text='New Project', emboss=False, icon='FILEBROWSER')
 
         layout.operator('olv.create_project_file', text='Create Project File', icon='FILE')
+
