@@ -7,4 +7,5 @@
         "import sys; sys.path.append('/home/artursvaitilavics/plugins/blender_autocomplete-master/2.90')"
     ],
     "python.pythonPath": "/usr/bin/python3.7",
+    "compile-hero.disable-compile-files-on-did-save-code": false,
 }

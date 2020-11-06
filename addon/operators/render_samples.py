@@ -5,8 +5,6 @@ class OLV_OP_Render_Samples(bpy.types.Operator):
     bl_idname = 'olv.render_samples'
     bl_label = 'Render Samples'
 
-    # default_samples:int = bpy.context.scene.cycles.samples
-    
     samples = bpy.props.IntProperty(name='Samples: ', default=512)
 
     def invoke(self, context, event):
