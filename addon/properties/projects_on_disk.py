@@ -7,7 +7,7 @@ class OLV_P_Projects_On_Disk():
     projects = os.listdir(path=path)
 
     def get_projects(self):
-        return self.projects
+        return os.listdir(path=self.path)
 
 
 # print(OLV_P_Projects_On_Disk().get_projects())
