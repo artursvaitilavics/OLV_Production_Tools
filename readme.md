@@ -6,3 +6,4 @@ Place this plugin in your BlenderRender/scripts/addons/ directory
 
 
 suggestion, use SymLink for all of this!
+

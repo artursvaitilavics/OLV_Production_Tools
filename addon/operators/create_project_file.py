@@ -4,6 +4,7 @@ import os
 from ..properties.scenes import OLV_Scenes
 from math import radians
 
+from .project_building.comporitor_output_nodes import OLV_OP_Create_Output_Nodes
 # TODO: Maybe get this to be done when creating new project
 
 
@@ -12,22 +13,22 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
     bl_idname = 'olv.create_project_file'
     bl_label = 'Create Project File'
 
-    scenes = OLV_Scenes()
-
     # TODO: find a way to get this path quick and simple for artist
-    path = 'x_disk_system_link/MS_BTS_FY_2025/03_Production/01_3D/'
-    file_name = 'Test_Name_v001.blend'
+    # path = 'x_disk_system_link/MS_BTS_FY_2025/03_Production/01_3D/'
+    # file_name = 'Test_Name_v001.blend'
 
-    # TODO: list all projects on X disk
+    scenes = OLV_Scenes()
+    nodes = OLV_OP_Create_Output_Nodes()
+
 
     def execute(self, context):
         self.import_LON_depth_boxes()
         self.create_scenes()
         self.delete_default_scene()
         self.apply_settings()
-        # self.link_depth_box_setup_to_LON()
-        # TODO: Uncoment below line, to save project file
-        # bpy.ops.wm.save_as_mainfile(filepath=self.path + '/' + self.file_name)
+        self.nodes.execute()
+
+
         return {'FINISHED'}
 
     def create_scenes(self):
@@ -60,6 +61,7 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
             scene_blender.render.fps = scene.frame_rate
             scene_blender.view_layers['View Layer'].name = 'img'
             scene_blender.view_layers['img'].use_pass_z = scene.z_pass
+            scene_blender.view_layers['img'].cycles.denoising_store_passes = scene.denoising_data
 
     def create_camera(self, scene_name: str):
         scene_name = scene_name + '_Camera'

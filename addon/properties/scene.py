@@ -13,6 +13,7 @@ class OLV_Scene():
                  end_frame,
                  frame_rate,
                  z_pass,
+                 denoising_data
                  ):
         self.name = name
         self.render_engine = render_engine
@@ -25,3 +26,4 @@ class OLV_Scene():
         self.end_frame = end_frame
         self.frame_rate = frame_rate
         self.z_pass = z_pass
+        self.denoising_data = denoising_data
