@@ -16,9 +16,11 @@ class OLV_MT_Passes(bpy.types.Menu):
         layout = self.layout
 
         # keys = self.h1_passes.keys()
-        keys = self.h2_passes.keys()
+        keys =  list(self.passes.get_passes().keys())
 
-        for key in keys:
-            layout.operator('olv.passes', text=key)
+        layout.menu('olv.view_layer_sub_passes_menu', text=keys[0])
 
-        # layout.operator('olv.passes', text='Passes')
+        layout.menu('olv.view_data_sub_passes_menu', text=keys[1])
+        # for key in keys:
+        #     layout.menu('olv.view_layer_sub_passes_menu', text=key)
+

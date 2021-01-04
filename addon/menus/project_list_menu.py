@@ -16,4 +16,8 @@ class OLV_MT_Project_List_Menu(bpy.types.Menu):
         for project in projects:
             lo = layout.operator('olv.save_project_file',
                                  text=project, icon='RADIOBUT_ON')
-            lo.project_name = project
+            
+            
+            # row = layout.row(align=True)
+            # col = row.column(align=True)
+            # lo.prop()
