@@ -1,2 +1,1 @@
-2. Save Project file, saves in 
-2. Create Output nodes on project file creation, pointing to proper directories
+1. Make all global settings -> Passes to work (OLV_OP_Passes)

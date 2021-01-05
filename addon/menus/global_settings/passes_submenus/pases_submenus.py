@@ -1,6 +1,8 @@
 import bpy
 
 from ....properties.passes import OLV_P_Passes
+# from ....operators.global_settings.passes import OLV_OP_Passes
+# from ....properties.passes_properties import OLV_Passes_Settings
 
 
 class OLV_MT_View_Layer_Sub_Passes(bpy.types.Menu):
@@ -16,6 +18,7 @@ class OLV_MT_View_Layer_Sub_Passes(bpy.types.Menu):
             layout.operator('olv.passes', text=key)
 
 
+
 class OLV_MT_Data_Sub_Passes(bpy.types.Menu):
     bl_idname = 'olv.view_data_sub_passes_menu'
     bl_label = 'Sub Passes'
@@ -26,8 +29,16 @@ class OLV_MT_Data_Sub_Passes(bpy.types.Menu):
         keys = self.passes.get_passes_data().keys()
         layout = self.layout
         scene = context.scene
-        for key in keys:
-            
-            layout.label(text=key)
-            row = layout.row()
-            row.prop('passes_value', text='SOME ARTURS TEXT')
+
+        col = layout.column(align=True)
+        row = col.row(align=True)
+
+
+        # row.prop(scene, 'passes_value', text='Arturs Testing')
+
+        # scene = context.scene
+        # for key in keys:
+
+        # layout.label(text=key)
+
+        # row.prop('passes_value', text=key)
