@@ -15,10 +15,10 @@ How:
     2. variable for name gets this functions value
 
   2:
-    1. Tweak compositor_output_nodes.py so it's not only for creating project
-    2. Make a function in it, that is called, when new project is created
-    3. Make a dictionary with all possible nodes
-    4. Make a function which is called, every time we set some passes in global setttings  -> passes
+    1. Tweak compositor_output_nodes.py so it's not only for creating project - later
+    2. Make a function in it, that is called, when new project is created - later
+    3. Make a dictionary with all possible output slots
+    4. dictionary gets it value from class properties, if true, then  ouptu slot i created
   
 
   Important TODO: We must be able to create View_layers globaly for all Scenes
