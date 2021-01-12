@@ -1,35 +1,10 @@
 import bpy
 
-from .passes_to_nodes import OLV_OP_Passes_To_Nodes
-# from .apply_passes import OLV_OP_Apply_Passes
+class OLV_OP_Apply_Passes():
+    bl_name = 'olv.apply_passes'
+    bl_label = 'Apply passes'
 
 
-class OLV_OP_Passes(bpy.types.Operator):
-    bl_idname = 'olv.passes'
-    bl_label = 'Render Passes'
-
-    # passes_to_nodes = OLV_OP_Passes_To_Nodes()
-    # apply_passes = OLV_OP_Apply_Passes()
-
-    layer_name = ''
-
-    def invoke(self, context, event):
-        return context.window_manager.invoke_props_dialog(self)
-
-    def execute(self, context):
-
-        layer_name = bpy.context.window.view_layer.name
-        self.apply_passes_globaly(layer_name)
-
-        return{'FINISHED'}
-
-    # def create_output_file_inputs(self, pass_name):
-    #     for scene in bpy.data.scenes:
-    #         node = scene.node_tree.nodes
-    #         node['File Outpus'].file_slots.new(pass_name)
-
-
-# TODO: Refactor below code, to take all this crap from another module, to keep this one clean.
     bool_prop = bpy.props.BoolProperty
     float_prop = bpy.props.FloatProperty
     int_prop = bpy.props.IntProperty
@@ -77,6 +52,8 @@ class OLV_OP_Passes(bpy.types.Operator):
         name='Cryptomatte Accurate Mode', default=True)
     # prop_: bool_prop(name='', default=False)
     # prop_: bool_prop(name='', default=False)
+
+
 
     def apply_passes_globaly(self, layer_name):
 
