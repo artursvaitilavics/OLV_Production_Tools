@@ -1,6 +1,7 @@
 import bpy
 
 from .passes_to_nodes import OLV_OP_Passes_To_Nodes
+from ..create_comp_nodes import CreateCompNodes
 # from .apply_passes import OLV_OP_Apply_Passes
 
 
@@ -12,6 +13,8 @@ class OLV_OP_Passes(bpy.types.Operator):
     # apply_passes = OLV_OP_Apply_Passes()
 
     layer_name = ''
+
+    create_comp_nodes = CreateCompNodes()
 
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self)
@@ -83,6 +86,9 @@ class OLV_OP_Passes(bpy.types.Operator):
         for scene in bpy.data.scenes:
 
             try:
+                # print("SCENE NAME: ", scene.name) sheit tiks izsauktas metodes no create_com_nodes, jo buus scena name
+                self.create_comp_nodes.create_layer_node(scene, layer_name)
+
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
 

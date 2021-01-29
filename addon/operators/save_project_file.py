@@ -7,9 +7,12 @@ class OLV_OP_Save_Project_File(bpy.types.Operator):
     bl_idname = 'olv.save_project_file'
     bl_label = 'Save Project File'
 
-    projects = OLV_P_Projects_On_Disk()
+    # projects = OLV_P_Projects_On_Disk()
+    project_name = bpy.props.StringProperty(default='Arturs_Project')
 
-    project_name = bpy.props.StringProperty(default='MyProject')
+    # def __init__(self, name):
+    #     self.project_name = name
+        #  bpy.props.StringProperty(default='Arturs_Project')
 
     def execute(self, context):
         self.save_project_file(self.project_name)
@@ -21,4 +24,4 @@ class OLV_OP_Save_Project_File(bpy.types.Operator):
         path_part_2 = '/03_Production/01_3D/'
         version = 1  # TODO: make dynamic
         bpy.ops.wm.save_as_mainfile(
-            filepath=path + '/' + project_name + path_part_2 + project_name + '_' + str(version) + '.blend')
+            filepath=path + project_name + path_part_2 + project_name + '_' + str(version) + '.blend')
