@@ -26,11 +26,6 @@ class OLV_OP_Passes(bpy.types.Operator):
 
         return{'FINISHED'}
 
-    # def create_output_file_inputs(self, pass_name):
-    #     for scene in bpy.data.scenes:
-    #         node = scene.node_tree.nodes
-    #         node['File Outpus'].file_slots.new(pass_name)
-
 
 # TODO: Refactor below code, to take all this crap from another module, to keep this one clean.
     bool_prop = bpy.props.BoolProperty
@@ -75,19 +70,103 @@ class OLV_OP_Passes(bpy.types.Operator):
     prop_crypto_object: bool_prop(name='Cryptomatte Object', default=False)
     prop_crypto_material: bool_prop(name='Cryptomatte Material', default=False)
     prop_crypto_asset: bool_prop(name='Cryptomatte Asset', default=False)
-    prop_crypto_levels: int_prop(name='Cryptomatte Levels', default=6)
+
     prop_crypto_accurate: bool_prop(
         name='Cryptomatte Accurate Mode', default=True)
-    # prop_: bool_prop(name='', default=False)
-    # prop_: bool_prop(name='', default=False)
+
+    prop_crypto_levels: int_prop(name='Cryptomatte Levels', default=6)
+
+    # prop_group = [
+    #     # prop_combined,
+    #     prop_z,
+    #     prop_mist,
+    #     prop_normal,
+    #     prop_vector,
+    #     prop_uv,
+
+    #     # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
+    #     prop_denoising_data,
+
+    #     prop_diffuse_direct,
+    #     prop_diffuse_indirect,
+    #     prop_diffuse_color,
+
+    #     prop_glossy_direct,
+    #     prop_glossy_indirect,
+    #     prop_glossy_color,
+
+    #     prop_transmission_direct,
+    #     prop_transmission_indirect,
+    #     prop_transmission_color,
+
+    #     prop_volume_direct,
+    #     prop_volume_indirect,
+    #     prop_emission,
+    #     prop_env,
+    #     prop_shadow,
+    #     prop_ao,
+    #     prop_crypto_object,
+    #     prop_crypto_material,
+    #     prop_crypto_asset,
+
+    # ]
 
     def apply_passes_globaly(self, layer_name):
 
+        prop_group = {
+            'combined': self.prop_combined,
+
+            'z': self.prop_z,
+            'mist': self.prop_mist,
+            'normal': self.prop_normal,
+            'vector': self.prop_vector,
+            'uv': self.prop_uv,
+
+            # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
+            'denoise_data': self.prop_denoising_data,
+
+            'diff_dir': self.prop_diffuse_direct,
+            'dif_indir': self.prop_diffuse_indirect,
+            'dif_col': self.prop_diffuse_color,
+
+            # self.prop_glossy_direct,
+            # self.prop_glossy_indirect,
+            # self.prop_glossy_color,
+
+            # self.prop_transmission_direct,
+            # self.prop_transmission_indirect,
+            # self.prop_transmission_color,
+
+            # self.prop_volume_direct,
+            # self.prop_volume_indirect,
+            # self.prop_emission,
+            # self.prop_env,
+            # self.prop_shadow,
+            # self.prop_ao,
+            # self.prop_crypto_object,
+            # self.prop_crypto_material,
+            # self.prop_crypto_asset,
+
+        }
+
+        # scenes = bpy.data.scenes
+
         for scene in bpy.data.scenes:
+
+            for prop in prop_group:
+                if prop_group.get(prop):
+                    self.create_comp_nodes.create_slots(
+                        scene, layer_name, prop)
+                    print('Prop: ', prop)
 
             try:
                 # print("SCENE NAME: ", scene.name) sheit tiks izsauktas metodes no create_com_nodes, jo buus scena name
-                self.create_comp_nodes.create_layer_node(scene, layer_name)
+
+                self.create_comp_nodes.create_layer_node(
+                scene, layer_name)
+
+
+                # output_node = scene.node_tree.nodes['Output Node']
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
@@ -133,5 +212,6 @@ class OLV_OP_Passes(bpy.types.Operator):
                 scene.view_layers[layer_name].cycles.use_pass_crypto_asset = self.prop_crypto_asset
                 scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
                 scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
+
             except Exception as e:
                 print(e)

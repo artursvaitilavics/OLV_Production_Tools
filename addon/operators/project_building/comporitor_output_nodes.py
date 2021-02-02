@@ -1,5 +1,6 @@
 import bpy
 
+# TODO: refactor this so it is reusable for various needs
 
 class OLV_OP_Create_Output_Nodes():
     bl_idname = 'olv.create_output_nodes'
