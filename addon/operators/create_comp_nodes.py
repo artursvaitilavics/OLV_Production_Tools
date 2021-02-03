@@ -15,16 +15,12 @@ class CreateCompNodes():
     def __init__(self):
         return
 
-    def sayHi(self):
-        print(
-            '----------------------------------------------Create Comp Nodes saying Hello!')
-
     def layer_name(self):
         layer_name = bpy.context.window.view_layer.name
         return layer_name
 
     def create_layer_node(self, scene, layer_name):
-    
+
         bpy.context.window.scene = scene
         update_scene = bpy.context.window.scene
         if update_scene.view_layers[layer_name]:
@@ -39,31 +35,15 @@ class CreateCompNodes():
 
     def create_slots(self, scene, layer_name, pass_name):
         slot_name = scene.name + "_" + layer_name + '_' + pass_name
-        scene.node_tree.nodes['File Output'].file_slots.new(
-            slot_name + "/" + slot_name + "_")
+        slot_name_full = slot_name + "/" + slot_name + "_"
 
-    def enable_nodes(self):
-        for scene in bpy.data.scenes:
-            bpy.context.window.scene = scene
-            scene.use_nodes = True
-            nodes = scene.node_tree.nodes
-            self.create_nodes(nodes)
-            self.create_output_file_slots(nodes['File Output'])
-            self.link_layer_to_denoise(
-                nodes['Render Layers'], nodes['Denoise'], nodes['File Output'])
+        output_node = scene.node_tree.nodes['File Output']
 
-    def create_nodes(self, nodes):
+        output_node.file_slots.new(slot_name_full)
+                
 
-        x_pos = 0
-        y_pos = 0
-
-        nodes.clear()
-
-        for node in self.nodes.get('Nodes'):
-            if not node:
-                new_node = nodes.new(node)
-                new_node.location.x = x_pos
-                x_pos += 500
+        # output_node.file_slots.new(
+        #     slot_name + "/" + slot_name + "_")
 
     def link_layer_to_denoise(self, layer, denoise, output):
         links = bpy.context.scene.node_tree.links
@@ -73,13 +53,77 @@ class CreateCompNodes():
 
         links.new(denoise.outputs['Image'], output.inputs[self.slot_name()])
 
-    def create_output_file_slots(self, node):
-        node.base_path = '//../../02_Assets/02_3D/'
-        node.file_slots.clear()
-        slot = node.file_slots.new(self.slot_name())
+    def link_nodes(self):
 
-    def slot_name(self):
-        scene_name = bpy.context.scene.name
-        render_layer = 'img'
-        slot_description = scene_name + '_' + render_layer
-        return slot_description + '/' + slot_description + '_'
+        # scene = bpy.context.scene
+        scenes = bpy.data.scenes
+
+        
+        render_layer_node_type = 'R_LAYERS'
+        output_node_type = 'OUTPUT_FILE'
+
+        render_node_outputs = []
+
+        for scene in scenes:
+            nodes = scene.node_tree.nodes
+            links = scene.node_tree.links
+            output_node = nodes['File Output']
+            for node in nodes:
+                # print("NODE, MAIN: ", node.name)
+
+                if node.type == render_layer_node_type:
+                    # print("NODE LAYER: ", node.layer)
+                    for key in node.outputs.keys():
+                        # print("KEY: ", key)
+                        for socket in output_node.inputs.keys():
+                            # print("SOCKETS: ", socket)
+                            ssocket_string_list = socket.split('_')
+                            layer_name = ssocket_string_list[-3]
+                            pass_name = ssocket_string_list[-2]
+                            # print("LAYER NAME: ", layer_name)
+                            # print("PASS NAME: ", pass_name)
+
+                            if node.layer == layer_name:
+                                # print("LAYER: ", node.layer,
+                                #       " LAYER NAME: ", layer_name)
+                                if key == pass_name:
+                                    print("KEY: ", key, "PASS NAME:", pass_name)
+                                    links.new(
+                                        node.outputs[key], output_node.inputs[socket])
+
+            # for render_pass in render_node_outputs:
+            #     for slot in output_node.inputs.keys():
+            #         slot_string_list = slot.split('_')
+
+            #         layer_name = slot_string_list[-2]
+            #         pass_name = slot_string_list[-1]
+
+            #         print("Render Pass: ", render_pass)
+            #         print("Pass Name: ", pass_name)
+
+            # for node in nodes:
+            #     if node.type == render_layer_node_type:
+            #         print(node.name)
+            #         for key in node.outputs.keys():
+            #             for slot in output_node.inputs.keys():
+            #                 slot_string_list = slot.split('_')
+
+        #                 layer_name = slot_string_list[-2]
+        #                 pass_name = slot_string_list[-1]
+
+        #                 try:
+        #                     if node.layer == layer_name and key == pass_name:
+        #                         print('LAYER NAME: ', layer_name,
+        #                               ' PASS NAME: ', pass_name)
+        #                 except Exception as exception:
+        #                     print("ERROR: ", exception.message)
+                    # print(key)
+
+
+# 1. Loop through node tree
+# 2. Get Render Layer node
+# 3. Loop through Render Layer Node's slots.
+# For each slot:
+# 4. Split output slot's names, to get render layer and pass
+# 5. Compare with render layers slot
+# 6. if match, new link

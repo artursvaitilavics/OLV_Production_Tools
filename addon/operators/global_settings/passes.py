@@ -76,76 +76,43 @@ class OLV_OP_Passes(bpy.types.Operator):
 
     prop_crypto_levels: int_prop(name='Cryptomatte Levels', default=6)
 
-    # prop_group = [
-    #     # prop_combined,
-    #     prop_z,
-    #     prop_mist,
-    #     prop_normal,
-    #     prop_vector,
-    #     prop_uv,
-
-    #     # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
-    #     prop_denoising_data,
-
-    #     prop_diffuse_direct,
-    #     prop_diffuse_indirect,
-    #     prop_diffuse_color,
-
-    #     prop_glossy_direct,
-    #     prop_glossy_indirect,
-    #     prop_glossy_color,
-
-    #     prop_transmission_direct,
-    #     prop_transmission_indirect,
-    #     prop_transmission_color,
-
-    #     prop_volume_direct,
-    #     prop_volume_indirect,
-    #     prop_emission,
-    #     prop_env,
-    #     prop_shadow,
-    #     prop_ao,
-    #     prop_crypto_object,
-    #     prop_crypto_material,
-    #     prop_crypto_asset,
-
-    # ]
-
     def apply_passes_globaly(self, layer_name):
 
         prop_group = {
-            'combined': self.prop_combined,
+            'Image': self.prop_combined,
 
-            'z': self.prop_z,
-            'mist': self.prop_mist,
-            'normal': self.prop_normal,
-            'vector': self.prop_vector,
-            'uv': self.prop_uv,
+            'Depth': self.prop_z,
+            'Mist': self.prop_mist,
+            'Normal': self.prop_normal,
+            'Vector': self.prop_vector,
+            'UV': self.prop_uv,
 
             # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
-            'denoise_data': self.prop_denoising_data,
+            # 'denoise_data': self.prop_denoising_data,
 
-            'diff_dir': self.prop_diffuse_direct,
-            'dif_indir': self.prop_diffuse_indirect,
-            'dif_col': self.prop_diffuse_color,
+            'DiffDir': self.prop_diffuse_direct,
+            'DiffInd': self.prop_diffuse_indirect,
+            'DiffCol': self.prop_diffuse_color,
 
-            # self.prop_glossy_direct,
-            # self.prop_glossy_indirect,
-            # self.prop_glossy_color,
+            'GlossDir': self.prop_glossy_direct,
+            'GlossInd': self.prop_glossy_indirect,
+            'GlossCol': self.prop_glossy_color,
 
-            # self.prop_transmission_direct,
-            # self.prop_transmission_indirect,
-            # self.prop_transmission_color,
+            'TransDir': self.prop_transmission_direct,
+            'TransInd': self.prop_transmission_indirect,
+            'TransCol': self.prop_transmission_color,
 
-            # self.prop_volume_direct,
-            # self.prop_volume_indirect,
-            # self.prop_emission,
-            # self.prop_env,
-            # self.prop_shadow,
-            # self.prop_ao,
-            # self.prop_crypto_object,
-            # self.prop_crypto_material,
-            # self.prop_crypto_asset,
+            'VolumeDir': self.prop_volume_direct,
+            'VolumeInd': self.prop_volume_indirect,
+
+            'Emit': self.prop_emission,
+            'Env': self.prop_env,
+            'Shadow': self.prop_shadow,
+            'AO': self.prop_ao,
+
+            # 'crypto_matte_obj': self.prop_crypto_object,
+            # 'crypto_matte_mat': self.prop_crypto_material,
+            # 'crypto_matte_asset': self.prop_crypto_asset,
 
         }
 
@@ -157,15 +124,15 @@ class OLV_OP_Passes(bpy.types.Operator):
                 if prop_group.get(prop):
                     self.create_comp_nodes.create_slots(
                         scene, layer_name, prop)
-                    print('Prop: ', prop)
 
             try:
                 # print("SCENE NAME: ", scene.name) sheit tiks izsauktas metodes no create_com_nodes, jo buus scena name
 
                 self.create_comp_nodes.create_layer_node(
-                scene, layer_name)
+                    scene, layer_name)
 
 
+                
                 # output_node = scene.node_tree.nodes['Output Node']
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
@@ -215,3 +182,4 @@ class OLV_OP_Passes(bpy.types.Operator):
 
             except Exception as e:
                 print(e)
+        self.create_comp_nodes.link_nodes()
