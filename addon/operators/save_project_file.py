@@ -1,4 +1,5 @@
 import bpy
+import json
 
 from ..properties.projects_on_disk import OLV_P_Projects_On_Disk
 
@@ -20,7 +21,12 @@ class OLV_OP_Save_Project_File(bpy.types.Operator):
         return {'FINISHED'}
 
     def save_project_file(self, project_name: str):
-        path = 'x_disk_system_link/'
+
+        with open('./settings.json') as my_file:
+            settings_data = json.load(my_file)
+            path = settings_data.get("Xdrive path")
+
+        # path = 'x_disk_system_link/'
         path_part_2 = '/03_Production/01_3D/'
         version = 1  # TODO: make dynamic
         bpy.ops.wm.save_as_mainfile(

@@ -1,5 +1,6 @@
 import bpy
 import os
+import json
 
 from ..properties.scenes import OLV_Scenes
 from math import radians
@@ -20,14 +21,12 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
     scenes = OLV_Scenes()
     nodes = OLV_OP_Create_Output_Nodes()
 
-
     def execute(self, context):
         self.import_LON_depth_boxes()
         self.create_scenes()
         self.delete_default_scene()
         self.apply_settings()
         self.nodes.execute()
-
 
         return {'FINISHED'}
 
@@ -73,7 +72,15 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
 
     def import_LON_depth_boxes(self):
 
-        file_path = 'assets_system_link/LON_DepthBox.blend'
+        # file_path = 'assets_system_link/LON_DepthBox.blend'
+
+        lond_data = 'LON_DepthBox.blend'
+
+        with open('./settings.json') as my_file:
+            settings_data = json.load(my_file)
+            assets_path = settings_data.get('Assets path')
+        
+        file_path = assets_path + lond_data
 
         with bpy.data.libraries.load(file_path) as (data_from, data_to):
             data_to.collections = [name for name in data_from.collections]

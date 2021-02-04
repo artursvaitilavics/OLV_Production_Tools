@@ -1,4 +1,5 @@
-
+1. Get SymLink paths from json
+2. 
 
 
 1. create a class, that creates nodes,
