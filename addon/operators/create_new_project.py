@@ -10,11 +10,6 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
     bl_idname = 'olv.create_new_project'
     bl_label = 'Create New Project'
 
-    # text = bpy.props.StringProperty(name='Enter Project Name', default='')
-
-    # with open('./settings.json') as my_file:
-    #     settings_data = json.load(my_file)
-    #     x_drive_path = settings_data.get("Xdrive path")
     get_path = Settings()
 
     x_drive_path = get_path.get_x_drive_path()
@@ -32,7 +27,6 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
     sub_directories = [sub_dir_00, sub_dir_01,
                        sub_dir_02, sub_dir_03, sub_dir_04, sub_dir_05]
 
-    # Pop up window, where we type in name of the new project
     root_directory = bpy.props.StringProperty(
         name='Project Name', default='')
 

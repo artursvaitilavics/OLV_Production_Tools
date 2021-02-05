@@ -1,24 +1,7 @@
-1. Get SymLink paths from json
-2. 
-
-
-1. create a class, that creates nodes,
-  - get name from scene and layer - DONE
-  - get pass name from properties - DONE
-  - create layer node - DONE
-  - chose layer by name of active view layer - DONE
-
-  - create input slot in file output node. DONE
-  - name slot : project_layer_pass_ DONE
-  - connect layer node outputs to correct file output nodes slots
-
-
-2. Denoising data, 
-  - seperate method of creating slots in Output Node
-  - seperate method to create new link for denoising data
-
-
-
+1. Create Project File - should not throw error if project file is already created. It should reset project to default settings, but first ask for user to approve
+2. If trying to create new project, with the name that already exists, should throw warning visible to user.
+3. Stop Passes from doubling
+4. Weird passes, like CryptoMattes, render times and indexes, to be removed from list temporeraly
 
 
 

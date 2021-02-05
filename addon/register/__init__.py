@@ -1,10 +1,5 @@
 def register_addon():
 
-    # from ..properties import register_properties
-    # register_properties()
-    # from ..operators.project_building import register_project_building
-    # register_project_building()
-
     from ..menus import register_menus
     register_menus()
 
@@ -16,11 +11,6 @@ def register_addon():
 
 
 def unregister_addon():
-
-    # from ..properties import unregister_properties
-    # unregister_properties()
-    # from ..operators.project_building import unregister_project_building
-    # unregister_project_building()
 
     from ..menus import unregister_menus
     unregister_menus()

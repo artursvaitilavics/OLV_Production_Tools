@@ -50,8 +50,7 @@ class OLV_OP_Apply_Passes():
     prop_crypto_levels: int_prop(name='Cryptomatte Levels', default=6)
     prop_crypto_accurate: bool_prop(
         name='Cryptomatte Accurate Mode', default=True)
-    # prop_: bool_prop(name='', default=False)
-    # prop_: bool_prop(name='', default=False)
+
 
 
 

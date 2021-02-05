@@ -5,7 +5,6 @@ class OLV_OP_Set_Resolution_Percentage(bpy.types.Operator):
     bl_idname = 'olv.set_resolution_percentage'
     bl_label = 'Set Resolution Percentage'
 
-    # scenes = bpy.data.scenes
     resolution_percentage = bpy.props.IntProperty(name='Resolution %', default=100)
 
     def invoke(self, context, event):

@@ -1,5 +1,6 @@
 from .scene import OLV_Scene
 
+# TODO: This should be in json settings file, could be seperate from main
 
 class OLV_Scenes():
     bl_idname = 'olv.scenes'

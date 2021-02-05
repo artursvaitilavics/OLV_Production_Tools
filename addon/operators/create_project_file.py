@@ -16,9 +16,6 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
     bl_idname = 'olv.create_project_file'
     bl_label = 'Create Project File'
 
-    # TODO: find a way to get this path quick and simple for artist
-    # path = 'x_disk_system_link/MS_BTS_FY_2025/03_Production/01_3D/'
-    # file_name = 'Test_Name_v001.blend'
 
     scenes = OLV_Scenes()
     nodes = OLV_OP_Create_Output_Nodes()
@@ -37,7 +34,6 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
     def create_scenes(self):
         for scene in self.scenes.get_scenes():
             this_scene = bpy.data.scenes.new(scene.name)
-            # Could be better than checking for L in the name of the scene
             if scene.name[0] != 'L':
                 camera = self.create_camera(scene.name)
                 this_scene.collection.objects.link(camera)
@@ -76,15 +72,9 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
 
     def import_LON_depth_boxes(self):
 
-        # file_path = 'assets_system_link/LON_DepthBox.blend'
-
-# TODO: Move lond_data info to settings.json
+        # TODO: Move lond_data info to settings.json
         lond_data = 'LON_DepthBox.blend'
 
-        # with open('./settings.json') as my_file:
-        #     settings_data = json.load(my_file)
-        #     assets_path = settings_data.get('Assets path')
-        
         file_path = self.settings.get_assets_path() + lond_data
 
         with bpy.data.libraries.load(file_path) as (data_from, data_to):

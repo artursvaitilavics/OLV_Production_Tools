@@ -1,16 +1,12 @@
 import bpy
 
-from .passes_to_nodes import OLV_OP_Passes_To_Nodes
+# from .passes_to_nodes import OLV_OP_Passes_To_Nodes
 from ..create_comp_nodes import CreateCompNodes
-# from .apply_passes import OLV_OP_Apply_Passes
 
 
 class OLV_OP_Passes(bpy.types.Operator):
     bl_idname = 'olv.passes'
     bl_label = 'Render Passes'
-
-    # passes_to_nodes = OLV_OP_Passes_To_Nodes()
-    # apply_passes = OLV_OP_Apply_Passes()
 
     layer_name = ''
 
@@ -116,8 +112,6 @@ class OLV_OP_Passes(bpy.types.Operator):
 
         }
 
-        # scenes = bpy.data.scenes
-
         for scene in bpy.data.scenes:
 
             for prop in prop_group:
@@ -126,14 +120,9 @@ class OLV_OP_Passes(bpy.types.Operator):
                         scene, layer_name, prop)
 
             try:
-                # print("SCENE NAME: ", scene.name) sheit tiks izsauktas metodes no create_com_nodes, jo buus scena name
 
                 self.create_comp_nodes.create_layer_node(
                     scene, layer_name)
-
-
-                
-                # output_node = scene.node_tree.nodes['Output Node']
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
@@ -182,4 +171,5 @@ class OLV_OP_Passes(bpy.types.Operator):
 
             except Exception as e:
                 print(e)
+
         self.create_comp_nodes.link_nodes()

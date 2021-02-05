@@ -17,4 +17,3 @@ class Settings:
         with open(self.settings_file) as my_file:
             assets_path = json.load(my_file).get("Assets path")
         return assets_path
-
