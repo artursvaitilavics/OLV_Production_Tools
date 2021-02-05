@@ -2,7 +2,7 @@ OLV Production Tools
 
 
 
-
+For new machine, "settings.jsone" must be updated
 
 1. Create directory in OLV_Tools called: assets_system_link
 2. Pace LON_DepthBox.blend in this directory
