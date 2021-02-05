@@ -1,6 +1,9 @@
 import bpy
 import os
 import json
+from pathlib import Path
+
+from ..utility.settings import Settings
 
 
 class OLV_OP_Create_New_Project(bpy.types.Operator):
@@ -9,10 +12,12 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
 
     # text = bpy.props.StringProperty(name='Enter Project Name', default='')
 
-    with open('./settings.json') as my_file:
-        settings_data = json.load(my_file)
-        x_drive_path = settings_data.get("Xdrive path")
-    
+    # with open('./settings.json') as my_file:
+    #     settings_data = json.load(my_file)
+    #     x_drive_path = settings_data.get("Xdrive path")
+    get_path = Settings()
+
+    x_drive_path = get_path.get_x_drive_path()
 
     # TODO: Curently hard coded, to be replaced with json
     sub_dir_00 = {'00_References': [
@@ -35,9 +40,9 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
         return context.window_manager.invoke_props_dialog(self)
 
     def execute(self, context):
-        print(self.x_drive_path)
 
         directory = self.x_drive_path + self.root_directory
+
         try:
             os.mkdir(directory)
             for sub_dir in self.sub_directories:

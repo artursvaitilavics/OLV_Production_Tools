@@ -1,12 +1,16 @@
 import bpy
 import json
+from ..utility.settings import Settings
 
+# TODO: cahnge bellow class to use settings.py module
 from ..properties.projects_on_disk import OLV_P_Projects_On_Disk
 
 
 class OLV_OP_Save_Project_File(bpy.types.Operator):
     bl_idname = 'olv.save_project_file'
     bl_label = 'Save Project File'
+
+    xdrive = Settings()
 
     # projects = OLV_P_Projects_On_Disk()
     project_name = bpy.props.StringProperty(default='Arturs_Project')
@@ -22,10 +26,7 @@ class OLV_OP_Save_Project_File(bpy.types.Operator):
 
     def save_project_file(self, project_name: str):
 
-        with open('./settings.json') as my_file:
-            settings_data = json.load(my_file)
-            path = settings_data.get("Xdrive path")
-
+        path = self.xdrive.get_x_drive_path()
         # path = 'x_disk_system_link/'
         path_part_2 = '/03_Production/01_3D/'
         version = 1  # TODO: make dynamic
