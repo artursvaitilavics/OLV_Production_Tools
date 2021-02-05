@@ -2,7 +2,25 @@ OLV Production Tools
 
 
 
-For new machine, "settings.jsone" must be updated
+For new Network, "settings.jsone" must be updated
+
+
+################################ Installation ###################################
+
+
+cmd -> run as Administrator ->
+-> paste this command ->
+
+mklink /D "C:\Program Files\Blender Foundation\Blender 2.90\2.90\scripts\addons\OLV_Production_Tools" "X:\Transfer\ArtursV\addons\OLV_Production_Tools"
+
+-> open blender -> enable OLV Tools Plugin -> enjoye Errors
+
+
+
+
+######################################################################
+
+
 
 1. Create directory in OLV_Tools called: assets_system_link
 2. Pace LON_DepthBox.blend in this directory
