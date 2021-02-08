@@ -43,7 +43,9 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
                 self.create_directories(sub_dir)
             return {'FINISHED'}
         except:
-            print("Can't make project")
+            self.report({"WARNING"}, "Project - " +
+                        self.root_directory + " - already exists...")
+            return{"CANCELLED"}
         return {'FINISHED'}
 
     def create_directories(self, directories: {}):

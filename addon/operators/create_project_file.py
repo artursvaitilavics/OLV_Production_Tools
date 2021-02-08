@@ -16,18 +16,28 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
     bl_idname = 'olv.create_project_file'
     bl_label = 'Create Project File'
 
-
     scenes = OLV_Scenes()
     nodes = OLV_OP_Create_Output_Nodes()
 
     settings = Settings()
 
+    project_created = False
+
+    # project_exist_message: bpy.props.StringProperty(name = "Project Exists" ,)
+
     def execute(self, context):
-        self.import_LON_depth_boxes()
-        self.create_scenes()
-        self.delete_default_scene()
-        self.apply_settings()
-        self.nodes.execute()
+
+        if not OLV_OP_Create_Project_File.project_created:
+
+            self.import_LON_depth_boxes()
+            self.create_scenes()
+            self.delete_default_scene()
+            self.apply_settings()
+            self.nodes.execute()
+            OLV_OP_Create_Project_File.project_created = True
+        else:
+            self.report({"WARNING"}, "Project file already exists...")
+            return{"CANCELLED"}
 
         return {'FINISHED'}
 

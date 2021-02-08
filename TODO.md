@@ -1,8 +1,6 @@
-1. Create Project File - should not throw error if project file is already created. It should reset project to default settings, but first ask for user to approve
-2. If trying to create new project, with the name that already exists, should throw warning visible to user.
 3. Stop Passes from doubling
 4. Weird passes, like CryptoMattes, render times and indexes, to be removed from list temporeraly
-
+5. Clear slots, should affect only active view layer
 
 
 
