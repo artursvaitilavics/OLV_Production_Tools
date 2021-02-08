@@ -113,7 +113,7 @@ class OLV_OP_Passes(bpy.types.Operator):
         }
 
         for scene in bpy.data.scenes:
-            self.create_comp_nodes.clear_slots(scene)
+            # self.create_comp_nodes.clear_slots(scene)
             # if prop_group.get('denoise_data'):
             #     self.create_comp_nodes.create_denoise_node(scene)
             for prop in prop_group:
