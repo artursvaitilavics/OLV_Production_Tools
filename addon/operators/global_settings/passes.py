@@ -127,7 +127,7 @@ class OLV_OP_Passes(bpy.types.Operator):
                 layer_node = self.create_comp_nodes.create_layer_node(
                     scene, layer_name)
 
-                self.create_comp_nodes.create_denoise_node(scene,layer_node,prop_group.get("Denoise"))
+                # self.create_comp_nodes.create_denoise_node(scene,layer_node,prop_group.get("Denoise"))
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer

@@ -37,8 +37,11 @@ class CreateCompNodes():
     def create_slots(self, scene, layer_name, pass_name):
         slot_name = scene.name + "_" + layer_name + '_' + pass_name
         slot_name_full = slot_name + "/" + slot_name + "_"
-        output_node = scene.node_tree.nodes['File Output']
-        output_node.file_slots.new(slot_name_full)
+        if not slot_name_full in self.created_slots:
+            output_node = scene.node_tree.nodes['File Output']
+            slot = output_node.file_slots.new(slot_name_full)
+            self.created_slots.append(slot_name_full)
+
 
     def clear_slots(self, scene):
         scene.node_tree.nodes["File Output"].file_slots.clear()
@@ -82,5 +85,6 @@ class CreateCompNodes():
     def create_denoise_node(self, scene, layer_node, denoise_data):
         output_node = scene.node_tree.nodes['File Output']
         if denoise_data:
-            denoise_node = scene.node_tree.nodes.new(type="CompositorNodeDenoise")
+            denoise_node = scene.node_tree.nodes.new(
+                type="CompositorNodeDenoise")
             self.link_layer_to_denoise(layer_node, denoise_node, output_node)

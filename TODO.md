@@ -1,6 +1,5 @@
-3. Stop Passes from doubling
-4. Weird passes, like CryptoMattes, render times and indexes, to be removed from list temporeraly
-5. Clear slots, should affect only active view layer
+5. refactor create render layer node, as its comming in repeaditly
+6. Weird passes, like CryptoMattes, render times and indexes, to be removed from list temporeraly
 
 
 
