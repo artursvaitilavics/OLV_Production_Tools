@@ -84,7 +84,7 @@ class OLV_OP_Passes(bpy.types.Operator):
             'UV': self.prop_uv,
 
             # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
-            # 'denoise_data': self.prop_denoising_data,
+            'Denoise': self.prop_denoising_data,
 
             'DiffDir': self.prop_diffuse_direct,
             'DiffInd': self.prop_diffuse_indirect,
@@ -113,16 +113,21 @@ class OLV_OP_Passes(bpy.types.Operator):
         }
 
         for scene in bpy.data.scenes:
-
+            self.create_comp_nodes.clear_slots(scene)
+            # if prop_group.get('denoise_data'):
+            #     self.create_comp_nodes.create_denoise_node(scene)
             for prop in prop_group:
                 if prop_group.get(prop):
                     self.create_comp_nodes.create_slots(
                         scene, layer_name, prop)
+                    # te bus ja props = denoise_data, izsauks metodi kas taisa denoise node, un pievieno kur vajag
 
             try:
 
-                self.create_comp_nodes.create_layer_node(
+                layer_node = self.create_comp_nodes.create_layer_node(
                     scene, layer_name)
+
+                self.create_comp_nodes.create_denoise_node(scene,layer_node,prop_group.get("Denoise"))
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer

@@ -11,6 +11,8 @@ class CreateCompNodes():
                        'CompositorNodeDenoise',
                        'CompositorNodeOutputFile']}
 
+    created_slots = []
+
     def __init__(self):
         return
 
@@ -35,10 +37,11 @@ class CreateCompNodes():
     def create_slots(self, scene, layer_name, pass_name):
         slot_name = scene.name + "_" + layer_name + '_' + pass_name
         slot_name_full = slot_name + "/" + slot_name + "_"
-
         output_node = scene.node_tree.nodes['File Output']
-
         output_node.file_slots.new(slot_name_full)
+
+    def clear_slots(self, scene):
+        scene.node_tree.nodes["File Output"].file_slots.clear()
 
     def link_layer_to_denoise(self, layer, denoise, output):
         links = bpy.context.scene.node_tree.links
@@ -73,6 +76,11 @@ class CreateCompNodes():
                             if node.layer == layer_name:
 
                                 if key == pass_name:
-                                    print("KEY: ", key, "PASS NAME:", pass_name)
                                     links.new(
                                         node.outputs[key], output_node.inputs[socket])
+
+    def create_denoise_node(self, scene, layer_node, denoise_data):
+        output_node = scene.node_tree.nodes['File Output']
+        if denoise_data:
+            denoise_node = scene.node_tree.nodes.new(type="CompositorNodeDenoise")
+            self.link_layer_to_denoise(layer_node, denoise_node, output_node)
