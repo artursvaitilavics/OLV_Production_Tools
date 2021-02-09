@@ -11,6 +11,7 @@ For new Network, "settings.jsone" must be updated
 change dirrectories for "Xdrive path" and "Assets Path" in settings.json which
 is in main folder
 
+
 from: 
 
 {
