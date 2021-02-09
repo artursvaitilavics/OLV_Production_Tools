@@ -8,12 +8,15 @@ class Settings:
     ).parent.parent.parent / "settings.json"
 
     def get_x_drive_path(self):
-
-        with open(self.settings_file) as my_file:
-            xdrive_path = json.load(my_file).get("Xdrive path")
-        return xdrive_path
+        return self.open_settings("Xdrive path")
 
     def get_assets_path(self):
+        return self.open_settings("Assets path")
+
+    def get_relative_render_path(self):
+        return self.open_settings("Render Path")
+
+    def open_settings(self, settings_key):
         with open(self.settings_file) as my_file:
-            assets_path = json.load(my_file).get("Assets path")
-        return assets_path
+            value = json.load(my_file).get(settings_key)
+        return value

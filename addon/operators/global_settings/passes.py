@@ -114,18 +114,17 @@ class OLV_OP_Passes(bpy.types.Operator):
 
         for scene in bpy.data.scenes:
 
-            
-
             try:
 
                 layer_node = self.create_comp_nodes.layer_node_to_scene(
                     scene, layer_name)
-                
-                self.create_comp_nodes.create_slots(scene, layer_name, prop_group)
+
+                print("DEBUG: layer node from passes:", layer_node)
+
+                self.create_comp_nodes.create_slots(
+                    scene, layer_name, prop_group)
 
                 self.create_comp_nodes.link_nodes(scene)
-
-
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
@@ -172,8 +171,11 @@ class OLV_OP_Passes(bpy.types.Operator):
                 scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
                 scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
 
-                
+                denoise_node = self.create_comp_nodes.create_denoise_node(
+                    scene)
+
+                self.create_comp_nodes.link_layer_to_denoise(
+                    scene, layer_node, denoise_node)
 
             except Exception as e:
                 print(e)
-    

@@ -1,5 +1,6 @@
 {
     "Xdrive path": "/home/artursvaitilavics/test_paths/test_x_disk/",
-    "Assets path": "/home/artursvaitilavics/test_paths/test_assets/"
+    "Assets path": "/home/artursvaitilavics/test_paths/test_assets/",
+    "Render Path": "//../../02_Assets/02_3D/"
 }
 
