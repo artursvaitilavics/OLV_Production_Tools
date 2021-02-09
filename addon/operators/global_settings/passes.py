@@ -113,21 +113,19 @@ class OLV_OP_Passes(bpy.types.Operator):
         }
 
         for scene in bpy.data.scenes:
-            # self.create_comp_nodes.clear_slots(scene)
-            # if prop_group.get('denoise_data'):
-            #     self.create_comp_nodes.create_denoise_node(scene)
-            for prop in prop_group:
-                if prop_group.get(prop):
-                    self.create_comp_nodes.create_slots(
-                        scene, layer_name, prop)
-                    # te bus ja props = denoise_data, izsauks metodi kas taisa denoise node, un pievieno kur vajag
+
+            
 
             try:
 
-                layer_node = self.create_comp_nodes.create_layer_node(
+                layer_node = self.create_comp_nodes.layer_node_to_scene(
                     scene, layer_name)
+                
+                self.create_comp_nodes.create_slots(scene, layer_name, prop_group)
 
-                # self.create_comp_nodes.create_denoise_node(scene,layer_node,prop_group.get("Denoise"))
+                self.create_comp_nodes.link_nodes(scene)
+
+
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
@@ -174,7 +172,8 @@ class OLV_OP_Passes(bpy.types.Operator):
                 scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
                 scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
 
+                
+
             except Exception as e:
                 print(e)
-
-        self.create_comp_nodes.link_nodes()
+    
