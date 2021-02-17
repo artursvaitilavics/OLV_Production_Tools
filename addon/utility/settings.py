@@ -16,6 +16,9 @@ class Settings:
     def get_relative_render_path(self):
         return self.open_settings("Render Path")
 
+    def get_nodes(self):
+        return self.open_settings("Nodes")
+
     def open_settings(self, settings_key):
         with open(self.settings_file) as my_file:
             value = json.load(my_file).get(settings_key)

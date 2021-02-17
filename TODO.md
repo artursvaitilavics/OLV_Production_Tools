@@ -1,5 +1,9 @@
 1. Remove img socket, and default denoise, when starting to use passes,   
-5. refactor create render layer node, as its comming in repeaditly
+2. refactor create render layer node, as its comming in repeaditly
+    - check if there is layer node for each view layer
+    - if no, create
+3. Denoise node to check if layer is correct, not only pass. currently connecting to all Denoise socekts inf File Output node.
+
 6. Weird passes, like CryptoMattes, render times and indexes, to be removed from list temporeraly
 
 

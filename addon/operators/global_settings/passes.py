@@ -2,6 +2,7 @@ import bpy
 
 # from .passes_to_nodes import OLV_OP_Passes_To_Nodes
 from ..create_comp_nodes import CreateCompNodes
+from ..global_settings.comp_nodes import CompNodes
 
 
 class OLV_OP_Passes(bpy.types.Operator):
@@ -11,6 +12,8 @@ class OLV_OP_Passes(bpy.types.Operator):
     layer_name = ''
 
     create_comp_nodes = CreateCompNodes()
+
+    comp_nodes = CompNodes()
 
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self)
@@ -83,7 +86,6 @@ class OLV_OP_Passes(bpy.types.Operator):
             'Vector': self.prop_vector,
             'UV': self.prop_uv,
 
-            # TODO make separate, so that denoising node can be created and connected to all inputs, outpts
             'Denoise': self.prop_denoising_data,
 
             'DiffDir': self.prop_diffuse_direct,
@@ -104,27 +106,22 @@ class OLV_OP_Passes(bpy.types.Operator):
             'Emit': self.prop_emission,
             'Env': self.prop_env,
             'Shadow': self.prop_shadow,
-            'AO': self.prop_ao,
-
-            # 'crypto_matte_obj': self.prop_crypto_object,
-            # 'crypto_matte_mat': self.prop_crypto_material,
-            # 'crypto_matte_asset': self.prop_crypto_asset,
-
+            'AO': self.prop_ao
         }
 
         for scene in bpy.data.scenes:
 
             try:
 
-                layer_node = self.create_comp_nodes.layer_node_to_scene(
-                    scene, layer_name)
+                # layer_node = self.create_comp_nodes.layer_node_to_scene(
+                #     scene, layer_name)
 
-                print("DEBUG: layer node from passes:", layer_node)
+                # print("DEBUG: layer node from passes:", layer_node)
 
-                self.create_comp_nodes.create_slots(
-                    scene, layer_name, prop_group)
+                # self.create_comp_nodes.create_slots(
+                #     scene, layer_name, prop_group)
 
-                self.create_comp_nodes.link_nodes(scene)
+                # self.create_comp_nodes.link_nodes(scene)
 
                 scene.view_layers[layer_name].use = self.prop_use_for_rendering
                 scene.render.use_single_layer = self.prop_single_layer
@@ -171,11 +168,16 @@ class OLV_OP_Passes(bpy.types.Operator):
                 scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
                 scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
 
-                denoise_node = self.create_comp_nodes.create_denoise_node(
-                    scene)
+                # denoise_node = self.create_comp_nodes.create_denoise_node(
+                #     scene)
 
-                self.create_comp_nodes.link_layer_to_denoise(
-                    scene, layer_node, denoise_node)
+                # self.create_comp_nodes.link_layer_to_denoise(
+                #     scene, node, denoise_node)
 
             except Exception as e:
                 print(e)
+
+        self.comp_nodes.enable_nodes()
+        self.comp_nodes.create_layers()
+        self.comp_nodes.create_file_output()
+        self.comp_nodes.create_slots()

@@ -1,5 +1,5 @@
 import bpy
-from addon.utility.settings import Settings
+from ..utility.settings import Settings
 
 
 class CreateCompNodes:
@@ -42,6 +42,25 @@ class CreateCompNodes:
                     print("Trying to create Render Layer Node, but ERROR: ", e)
         return return_value
 
+    # def layer_node_to_scene(self, scene, layer_name):
+    #     self.enable_nodes(scene)
+    #     nodes = self.layer_nodes_to_layers(scene)
+    #     return nodes
+        
+
+    def layer_nodes_to_layers(self, scene):
+        view_layer = scene.view_layers
+        nodes = scene.node_tree.nodes
+        layer_nodes = []
+        for node in nodes:
+            if node.type == 'R_LAYERS':
+                nodes.remove(node)
+        for layer in view_layer:
+            node = self.create_layer_node(scene)
+            node.layer = layer.name
+            layer_nodes.append(node)
+        return layer_nodes
+
     def create_slots(self, scene, layer_name, prop_group):
         self.enable_nodes(scene)
         for pass_name in prop_group:
@@ -73,8 +92,12 @@ class CreateCompNodes:
                         layer_name = ssocket_string_list[-3]
                         pass_name = ssocket_string_list[-2]
 
-                        if node.layer == layer_name:
+                        # socket = scene.node_tree.nodes['File Output'].inputs['img']
 
+                        # if pass_name == 'img':
+                        #     scene.node_tree.nodes['File Output'].file_slots.remove(scene.node_tree.nodes['File Output'].inputs['img'])
+
+                        if node.layer == layer_name:
                             if key == pass_name:
                                 links.new(
                                     node.outputs[key], output_node.inputs[socket])
@@ -85,8 +108,7 @@ class CreateCompNodes:
         return denoise_node
 
     def link_layer_to_denoise(self, scene, layer_node, denoise_node):
-        print("DEBUG: link_layer_to_denoise()")
-        print("DEBUG:", layer_node)
+
         output_node = scene.node_tree.nodes['File Output']
         links = scene.node_tree.links
         links.new(layer_node.outputs['Noisy Image'], denoise_node.inputs[0])
@@ -100,7 +122,7 @@ class CreateCompNodes:
             layer_name = ssocket_string_list[-3]
             pass_name = ssocket_string_list[-2]
 
-            if pass_name == "Denoise":
+            if pass_name == "Denoise" and layer_name == layer_node.layer:
                 links.new(
                     denoise_node.outputs['Image'], output_node.inputs[socket])
 

@@ -1,6 +1,8 @@
 import bpy
+from ...utility.settings import Settings
 
 # TODO: refactor this so it is reusable for various needs
+
 
 class OLV_OP_Create_Output_Nodes():
     bl_idname = 'olv.create_output_nodes'
@@ -8,10 +10,7 @@ class OLV_OP_Create_Output_Nodes():
 
     operator = bpy.ops
 
-    # TODO: Create nodes for each view layer, and for enabled passes
-    nodes = {'Nodes': ['CompositorNodeRLayers',
-                       'CompositorNodeDenoise',
-                       'CompositorNodeOutputFile']}
+    settings = Settings()
 
     def execute(self):
         self.enable_nodes()
@@ -34,7 +33,9 @@ class OLV_OP_Create_Output_Nodes():
 
         nodes.clear()
 
-        for node in self.nodes.get('Nodes'):
+        
+        for node in self.settings.get_nodes():
+
             new_node = nodes.new(node)
             new_node.location.x = x_pos
             x_pos += 500
@@ -48,7 +49,9 @@ class OLV_OP_Create_Output_Nodes():
         links.new(denoise.outputs['Image'], output.inputs[self.slot_name()])
 
     def create_output_file_slots(self, node):
-        node.base_path = '//../../02_Assets/02_3D/'
+        # TODO: replace path with settings relative path
+        node.base_path = self.settings.get_relative_render_path()
+        # node.base_path = '//../../02_Assets/02_3D/'
         node.file_slots.clear()
         slot = node.file_slots.new(self.slot_name())
 
@@ -56,4 +59,4 @@ class OLV_OP_Create_Output_Nodes():
         scene_name = bpy.context.scene.name
         render_layer = 'img'
         slot_description = scene_name + '_' + render_layer
-        return  slot_description+ '/' + slot_description + '_'
+        return slot_description + '/' + slot_description + '_'

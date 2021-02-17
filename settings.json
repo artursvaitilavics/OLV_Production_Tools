@@ -1,5 +1,13 @@
 {
-    "Xdrive path": "/home/artursvaitilavics/test_paths/test_x_disk/",
-    "Assets path": "/home/artursvaitilavics/test_paths/test_assets/",
-    "Render Path": "//../../02_Assets/02_3D/"
+    "Xdrive path": "/media/artursvaitilavics/8A5A67055A66ECFF/file_storage/test_paths/test_x_disk/",
+    "Assets path": "/media/artursvaitilavics/8A5A67055A66ECFF/file_storage/test_paths/test_assets/",
+    "Render Path": "//../../02_Assets/02_3D/",
+    "Cycles Settings": {
+
+    },
+    "Nodes": [
+            "CompositorNodeRLayers",
+            "CompositorNodeDenoise",
+            "CompositorNodeOutputFile"
+        ]
 }
