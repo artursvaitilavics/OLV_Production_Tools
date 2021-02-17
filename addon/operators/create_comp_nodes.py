@@ -1,8 +1,8 @@
 import bpy
-from ..utility.settings import Settings
+from addon.utility.settings import Settings
 
 
-class CreateCompNodes():
+class CreateCompNodes:
     bl_name = 'olv.create_comp_nodes'
     bl_label = 'Create comp nodes for rendering'
 
@@ -101,7 +101,8 @@ class CreateCompNodes():
             pass_name = ssocket_string_list[-2]
 
             if pass_name == "Denoise":
-                links.new(denoise_node.outputs['Image'], output_node.inputs[socket])
+                links.new(
+                    denoise_node.outputs['Image'], output_node.inputs[socket])
 
     def enable_nodes(self, scene):
         if not scene.use_nodes:
