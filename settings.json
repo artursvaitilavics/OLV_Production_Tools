@@ -1,6 +1,6 @@
 {
-    "Xdrive path": "/media/artursvaitilavics/8A5A67055A66ECFF/file_storage/test_paths/test_x_disk/",
-    "Assets path": "/media/artursvaitilavics/8A5A67055A66ECFF/file_storage/test_paths/test_assets/",
+    "Xdrive path": "/home/arturs/Documents/Storage/",
+    "Assets path": "/home/arturs/Documents/Storage/Assets/",
     "Render Path": "//../../02_Assets/02_3D/",
     "Cycles Settings": {
 

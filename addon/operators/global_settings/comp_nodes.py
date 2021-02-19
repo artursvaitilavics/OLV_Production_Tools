@@ -1,10 +1,14 @@
 import bpy
 from ...utility.settings import Settings
+from .passes_settings import PassesSettings
+from .active_render_passes import ActiveRenderPasses
 
 
 class CompNodes:
 
     settings = Settings()
+    passes_settings = PassesSettings()
+    active_render_passes = ActiveRenderPasses()
 
     output_node_name = "File Output"
 
@@ -27,23 +31,38 @@ class CompNodes:
 
     def create_slots(self):
         for scene in bpy.data.scenes:
-            scene.node_tree.nodes[self.output_node_name].file_slots.new(
-                "TEST_SLOT")
+            for view_layer in scene.view_layers:
+                print(scene.name, view_layer.name)
+        # for scene in bpy.data.scenes:
+        #     for view_layer in scene.view_layers:
+        #         image = view_layer.use_pass_combined
+        #         print(scene.name, view_layer.name, image)
+        # self.__slots_to_create(scene)
+        # node = scene.node_tree.nodes[self.output_node_name]
+        # node.file_slots.clear()
+        # for layer_name in self.__get_view_layers(scene):
+        #     for render_pass in render_passes:
+        #         slot_name = layer_name + "/" + render_pass + "_"
+        #         node.file_slots.new(slot_name)
 
 
-# save all passes in seperate temp json
-# when creating slots, read from this json, (later do this also for applying settings)
-# Helper Methods
+# TODO: eval(render_settings.get(render_setting))   GET THIS DO SOME MAGIC
 
-    def __create_slot(self, scene):
-        scene.node_tree.nodes[self.output_node_name].file_slots.new(
-                "TEST_SLOT")
 
+    def __slots_to_create(self, scene):
+        image = self.active_render_passes.active_passes(scene).get('Image')
+        print(scene.name, image)
+
+    def __create_slot(self, scene, render_pass):
+        node = scene.node_tree.nodes[self.output_node_name]
+        node.file_slots.clear()
+        node.file_slots.new(
+            render_pass)
 
     def __get_view_layers(self, scene):
         layer_names = []
         for layer in scene.view_layers:
-            layer_names.append[layer.name]
+            layer_names.append(layer.name)
         return layer_names
 
     def __create_layer_node(self, scene):

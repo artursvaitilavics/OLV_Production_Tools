@@ -20,8 +20,9 @@ class OLV_OP_Passes(bpy.types.Operator):
 
     def execute(self, context):
 
-        layer_name = bpy.context.window.view_layer.name
-        self.apply_passes_globaly(layer_name)
+        # layer_name = bpy.context.window.view_layer.name
+        # layer_name bellow as parameter
+        self.apply_passes_globaly()
 
         return{'FINISHED'}
 
@@ -75,7 +76,8 @@ class OLV_OP_Passes(bpy.types.Operator):
 
     prop_crypto_levels: int_prop(name='Cryptomatte Levels', default=6)
 
-    def apply_passes_globaly(self, layer_name):
+# layer_name bellow as parameter
+    def apply_passes_globaly(self):
 
         prop_group = {
             'Image': self.prop_combined,
@@ -109,75 +111,76 @@ class OLV_OP_Passes(bpy.types.Operator):
             'AO': self.prop_ao
         }
 
+        active_layer = bpy.context.window.view_layer.name
+
         for scene in bpy.data.scenes:
+            for view_layer in scene.view_layers:
+                layer_name = view_layer.name
+                if layer_name == active_layer:
+                    try:
+                        scene.view_layers[layer_name].use = self.prop_use_for_rendering
+                        scene.render.use_single_layer = self.prop_single_layer
 
-            try:
+                        scene.view_layers[layer_name].use_pass_combined = self.prop_combined
+                        scene.view_layers[layer_name].use_pass_z = self.prop_z
+                        scene.view_layers[layer_name].use_pass_mist = self.prop_mist
+                        scene.view_layers[layer_name].use_pass_normal = self.prop_normal
+                        scene.view_layers[layer_name].use_pass_vector = self.prop_vector
+                        scene.view_layers[layer_name].use_pass_uv = self.prop_uv
+                        scene.view_layers[layer_name].cycles.denoising_store_passes = self.prop_denoising_data
 
-                # layer_node = self.create_comp_nodes.layer_node_to_scene(
-                #     scene, layer_name)
+                        scene.view_layers[layer_name].use_pass_object_index = self.prop_object_index
+                        scene.view_layers[layer_name].use_pass_material_index = self.prop_material_index
 
-                # print("DEBUG: layer node from passes:", layer_node)
+                        scene.view_layers[layer_name].cycles.pass_debug_render_time = self.prop_render_time
+                        scene.view_layers[layer_name].cycles.pass_debug_sample_count = self.prop_sample_count
 
-                # self.create_comp_nodes.create_slots(
-                #     scene, layer_name, prop_group)
+                        scene.view_layers[layer_name].pass_alpha_threshold = self.prop_alpha_threshold
 
-                # self.create_comp_nodes.link_nodes(scene)
+                        scene.view_layers[layer_name].use_pass_diffuse_direct = self.prop_diffuse_direct
+                        scene.view_layers[layer_name].use_pass_diffuse_indirect = self.prop_diffuse_indirect
+                        scene.view_layers[layer_name].use_pass_diffuse_color = self.prop_diffuse_color
 
-                scene.view_layers[layer_name].use = self.prop_use_for_rendering
-                scene.render.use_single_layer = self.prop_single_layer
+                        scene.view_layers[layer_name].use_pass_glossy_direct = self.prop_glossy_direct
+                        scene.view_layers[layer_name].use_pass_glossy_indirect = self.prop_glossy_indirect
+                        scene.view_layers[layer_name].use_pass_glossy_color = self.prop_glossy_color
 
-                scene.view_layers[layer_name].use_pass_combined = self.prop_combined
-                scene.view_layers[layer_name].use_pass_z = self.prop_z
-                scene.view_layers[layer_name].use_pass_mist = self.prop_mist
-                scene.view_layers[layer_name].use_pass_normal = self.prop_normal
-                scene.view_layers[layer_name].use_pass_vector = self.prop_vector
-                scene.view_layers[layer_name].use_pass_uv = self.prop_uv
-                scene.view_layers[layer_name].cycles.denoising_store_passes = self.prop_denoising_data
+                        scene.view_layers[layer_name].use_pass_transmission_direct = self.prop_transmission_direct
+                        scene.view_layers[layer_name].use_pass_transmission_indirect = self.prop_transmission_indirect
+                        scene.view_layers[layer_name].use_pass_transmission_color = self.prop_transmission_color
 
-                scene.view_layers[layer_name].use_pass_object_index = self.prop_object_index
-                scene.view_layers[layer_name].use_pass_material_index = self.prop_material_index
+                        scene.view_layers[layer_name].cycles.use_pass_volume_direct = self.prop_volume_direct
+                        scene.view_layers[layer_name].cycles.use_pass_volume_indirect = self.prop_volume_indirect
 
-                scene.view_layers[layer_name].cycles.pass_debug_render_time = self.prop_render_time
-                scene.view_layers[layer_name].cycles.pass_debug_sample_count = self.prop_sample_count
+                        scene.view_layers[layer_name].use_pass_emit = self.prop_emission
+                        scene.view_layers[layer_name].use_pass_environment = self.prop_env
+                        scene.view_layers[layer_name].use_pass_shadow = self.prop_shadow
+                        scene.view_layers[layer_name].use_pass_ambient_occlusion = self.prop_ao
 
-                scene.view_layers[layer_name].pass_alpha_threshold = self.prop_alpha_threshold
+                        scene.view_layers[layer_name].cycles.use_pass_crypto_object = self.prop_crypto_object
+                        scene.view_layers[layer_name].cycles.use_pass_crypto_material = self.prop_crypto_material
+                        scene.view_layers[layer_name].cycles.use_pass_crypto_asset = self.prop_crypto_asset
+                        scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
+                        scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
 
-                scene.view_layers[layer_name].use_pass_diffuse_direct = self.prop_diffuse_direct
-                scene.view_layers[layer_name].use_pass_diffuse_indirect = self.prop_diffuse_indirect
-                scene.view_layers[layer_name].use_pass_diffuse_color = self.prop_diffuse_color
+                    except Exception as e:
+                        print(e)
 
-                scene.view_layers[layer_name].use_pass_glossy_direct = self.prop_glossy_direct
-                scene.view_layers[layer_name].use_pass_glossy_indirect = self.prop_glossy_indirect
-                scene.view_layers[layer_name].use_pass_glossy_color = self.prop_glossy_color
+        # self.comp_nodes.enable_nodes()
+        # self.comp_nodes.create_layers()
+        # self.comp_nodes.create_file_output()
 
-                scene.view_layers[layer_name].use_pass_transmission_direct = self.prop_transmission_direct
-                scene.view_layers[layer_name].use_pass_transmission_indirect = self.prop_transmission_indirect
-                scene.view_layers[layer_name].use_pass_transmission_color = self.prop_transmission_color
+        # group = self.enabled_pass(prop_group)
 
-                scene.view_layers[layer_name].cycles.use_pass_volume_direct = self.prop_volume_direct
-                scene.view_layers[layer_name].cycles.use_pass_volume_indirect = self.prop_volume_indirect
-
-                scene.view_layers[layer_name].use_pass_emit = self.prop_emission
-                scene.view_layers[layer_name].use_pass_environment = self.prop_env
-                scene.view_layers[layer_name].use_pass_shadow = self.prop_shadow
-                scene.view_layers[layer_name].use_pass_ambient_occlusion = self.prop_ao
-
-                scene.view_layers[layer_name].cycles.use_pass_crypto_object = self.prop_crypto_object
-                scene.view_layers[layer_name].cycles.use_pass_crypto_material = self.prop_crypto_material
-                scene.view_layers[layer_name].cycles.use_pass_crypto_asset = self.prop_crypto_asset
-                scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
-                scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
-
-                # denoise_node = self.create_comp_nodes.create_denoise_node(
-                #     scene)
-
-                # self.create_comp_nodes.link_layer_to_denoise(
-                #     scene, node, denoise_node)
-
-            except Exception as e:
-                print(e)
-
-        self.comp_nodes.enable_nodes()
-        self.comp_nodes.create_layers()
-        self.comp_nodes.create_file_output()
         self.comp_nodes.create_slots()
+
+
+# Helper Methods
+
+
+    def enabled_pass(self, prop_group):
+        group = []
+        for key in prop_group:
+            if prop_group.get(key):
+                group.append(key)
+        return group

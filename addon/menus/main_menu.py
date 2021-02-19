@@ -11,7 +11,6 @@ class OLV_MT_Main_Menu(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
 
-
         layout.menu('OLV_MT_Name_New_Project_Menu',
                     text='Project', icon='OUTLINER_OB_LATTICE')
 
