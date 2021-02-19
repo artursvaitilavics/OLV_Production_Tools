@@ -1,81 +1,41 @@
 import bpy
-
-
-class LayerPasses:
-    passes = {"Image": True}
+from .passes_settings import PassesSettings
 
 
 class ActiveRenderPasses:
+    layer_passes = PassesSettings().get_all_passes()
 
-    scene = {"layers": []}
-    # view_layers = {"layers": []}
+    def set_passes(self, view_layer):
+        layer_passes = self.layer_passes
 
-    # scenes = bpy.data.scenes
+        layer_passes['Image'] = view_layer.use_pass_combined
 
-    # view_layer_names = []
+        layer_passes['Depth'] = view_layer.use_pass_z
+        layer_passes['Mist'] = view_layer.use_pass_mist
+        layer_passes['Normal'] = view_layer.use_pass_normal
+        layer_passes['Vector'] = view_layer.use_pass_vector
+        layer_passes['UV'] = view_layer.use_pass_uv
 
-    def view_layer(self):
-        for layer in self.view_layers():
-            print(layer.name)
-    #     layer_passes = LayerPasses()
+        layer_passes['Denoise'] = view_layer.cycles.denoising_store_passes
 
-    #     view_layer = {"name": "", "passes": []}
-    #     view_layer["name"] = name
-    #     view_layer["passes"] = layer_passes.passes
+        layer_passes['DiffDir'] = view_layer.use_pass_diffuse_direct
+        layer_passes['DiffInd'] = view_layer.use_pass_diffuse_indirect
+        layer_passes['DiffCol'] = view_layer.use_pass_diffuse_color
 
-    #     view_layers["layers"].append(view_layer)
+        layer_passes['GlossDir'] = view_layer.use_pass_glossy_direct
+        layer_passes['GlossInd'] = view_layer.use_pass_glossy_indirect
+        layer_passes['GlossCol'] = view_layer.use_pass_glossy_color
 
-    # scene["layers"].append(view_layers)
+        layer_passes['TransDir'] = view_layer.use_pass_transmission_direct
+        layer_passes['TransInd'] = view_layer.use_pass_transmission_indirect
+        layer_passes['TransCol'] = view_layer.use_pass_transmission_color
 
-    def view_layers(self):
-        view_layers = []
-        for scene in bpy.data.scenes:
-            view_layers = scene.view_layers
-            self.scene["layers"].append(view_layers)
-        return self.scene
+        layer_passes['VolumeDir'] = view_layer.cycles.use_pass_volume_direct
+        layer_passes['VolumeInd'] = view_layer.cycles.use_pass_volume_indirect
 
-#    for view_layer in scene.view_layers:
+        layer_passes['Emit'] = view_layer.use_pass_emit
+        layer_passes['Env'] = view_layer.use_pass_environment
+        layer_passes['Shadow'] = view_layer.use_pass_shadow
+        layer_passes['AO'] = view_layer.use_pass_ambient_occlusion
 
-#         layer_passes['Image'] = view_layer.use_pass_combined
-        # scene.view_layers[layer_name].use_pass_z = self.prop_z
-        # scene.view_layers[layer_name].use_pass_mist = self.prop_mist
-        # scene.view_layers[layer_name].use_pass_normal = self.prop_normal
-        # scene.view_layers[layer_name].use_pass_vector = self.prop_vector
-        # scene.view_layers[layer_name].use_pass_uv = self.prop_uv
-        # scene.view_layers[layer_name].cycles.denoising_store_passes = self.prop_denoising_data
-
-        # scene.view_layers[layer_name].use_pass_object_index = self.prop_object_index
-        # scene.view_layers[layer_name].use_pass_material_index = self.prop_material_index
-
-        # scene.view_layers[layer_name].cycles.pass_debug_render_time = self.prop_render_time
-        # scene.view_layers[layer_name].cycles.pass_debug_sample_count = self.prop_sample_count
-
-        # scene.view_layers[layer_name].pass_alpha_threshold = self.prop_alpha_threshold
-
-        # scene.view_layers[layer_name].use_pass_diffuse_direct = self.prop_diffuse_direct
-        # scene.view_layers[layer_name].use_pass_diffuse_indirect = self.prop_diffuse_indirect
-        # scene.view_layers[layer_name].use_pass_diffuse_color = self.prop_diffuse_color
-
-        # scene.view_layers[layer_name].use_pass_glossy_direct = self.prop_glossy_direct
-        # scene.view_layers[layer_name].use_pass_glossy_indirect = self.prop_glossy_indirect
-        # scene.view_layers[layer_name].use_pass_glossy_color = self.prop_glossy_color
-
-        # scene.view_layers[layer_name].use_pass_transmission_direct = self.prop_transmission_direct
-        # scene.view_layers[layer_name].use_pass_transmission_indirect = self.prop_transmission_indirect
-        # scene.view_layers[layer_name].use_pass_transmission_color = self.prop_transmission_color
-
-        # scene.view_layers[layer_name].cycles.use_pass_volume_direct = self.prop_volume_direct
-        # scene.view_layers[layer_name].cycles.use_pass_volume_indirect = self.prop_volume_indirect
-
-        # scene.view_layers[layer_name].use_pass_emit = self.prop_emission
-        # scene.view_layers[layer_name].use_pass_environment = self.prop_env
-        # scene.view_layers[layer_name].use_pass_shadow = self.prop_shadow
-        # scene.view_layers[layer_name].use_pass_ambient_occlusion = self.prop_ao
-
-        # scene.view_layers[layer_name].cycles.use_pass_crypto_object = self.prop_crypto_object
-        # scene.view_layers[layer_name].cycles.use_pass_crypto_material = self.prop_crypto_material
-        # scene.view_layers[layer_name].cycles.use_pass_crypto_asset = self.prop_crypto_asset
-        # scene.view_layers[layer_name].cycles.pass_crypto_depth = self.prop_crypto_levels
-        # scene.view_layers[layer_name].cycles.pass_crypto_accurate = self.prop_crypto_accurate
-
-    # return layer_passes
+        return self.layer_passes

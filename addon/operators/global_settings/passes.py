@@ -166,17 +166,17 @@ class OLV_OP_Passes(bpy.types.Operator):
                     except Exception as e:
                         print(e)
 
-        # self.comp_nodes.enable_nodes()
-        # self.comp_nodes.create_layers()
-        # self.comp_nodes.create_file_output()
+        self.comp_nodes.enable_nodes()
+        self.comp_nodes.create_layers()
+        self.comp_nodes.create_file_output()
 
-        # group = self.enabled_pass(prop_group)
+        group = self.enabled_pass(prop_group)
 
         self.comp_nodes.create_slots()
+        self.comp_nodes.create_links()
 
 
 # Helper Methods
-
 
     def enabled_pass(self, prop_group):
         group = []
