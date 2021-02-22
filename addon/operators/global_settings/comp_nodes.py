@@ -44,18 +44,6 @@ class CompNodes:
                         socket = self.__create_slot(
                             scene, view_layer.name, key)
 
-                        # if key == "Denoise":
-                        #     denoise_node = self.__create_denoise_node()
-                        #     self.__link_denoise_node(scene, node, denoise_node)
-
-                        # This should run seperatly
-                        # if key == "Denoise":
-                        #      = self.__create_denoise_node(scene)
-
-                        # output_node.file_slot[key]
-
-                        # Create links
-
     def create_links(self):
 
         for scene in bpy.data.scenes:
@@ -64,6 +52,7 @@ class CompNodes:
             for node in scene.node_tree.nodes:
 
                 if node.type == self.render_layer_node_type:
+                    denoise_to_create = []
 
                     for key in node.outputs.keys():
                         for socket in output_node.inputs.keys():
@@ -71,22 +60,18 @@ class CompNodes:
                             layer_name = ssocket_string_list[-3]
                             pass_name = ssocket_string_list[-2]
 
-                            # socket = scene.node_tree.nodes['File Output'].inputs['img']
-
-                            # if pass_name == 'img':
-                            #     scene.node_tree.nodes['File Output'].file_slots.remove(scene.node_tree.nodes['File Output'].inputs['img'])
-
                             if node.layer == layer_name:
                                 if key == pass_name:
                                     links.new(
                                         node.outputs[key], output_node.inputs[socket])
 
-                            if key == "Denoising Normal":
-                                # Make only as many Denoise nodes, as needed! Currently too shitty
-                                denoise_node = self.__create_denoise_node(
-                                    scene)
-                                self.__link_denoise_node(
-                                    scene, node, denoise_node)
+# Bellow stuff in function should be seperated from here
+                                if key == "Denoising Normal" and pass_name == "Denoise":
+                                    # Make only as many Denoise nodes, as needed! Currently too shitty
+                                    denoise_node = self.__create_denoise_node(
+                                        scene)
+                                    self.__link_denoise_node(
+                                        scene, node, denoise_node)
 
     def __create_slot(self, scene, view_layer_name, render_pass_name):
         combined_name = scene.name + "_" + view_layer_name + "_" + render_pass_name
@@ -125,7 +110,7 @@ class CompNodes:
                   denoise_node.inputs['Albedo'])
 
         socket = self.__get_socket_pass_name(output_node)
-        
+
         links.new(denoise_node.outputs['Image'], output_node.inputs[socket])
 
     def __get_socket_pass_name(self, output_node):
@@ -140,18 +125,11 @@ class CompNodes:
             else:
                 return_value == ""
         return return_value
-        # return socket
-    # def reference_create_slots(s
-    # elf, scene, layer_name, prop_group):
-    #     self.enable_nodes(scene)
-    #     for pass_name in prop_group:
-    #         if prop_group.get(pass_name):
-    #             slot_name = scene.name + "_" + layer_name + '_' + pass_name
-    #             slot_name_full = slot_name + "/" + slot_name + "_"
-    #             if not slot_name_full in self.created_slots:
-    #                 output_node = scene.node_tree.nodes['File Output']
-    #                 slot = output_node.file_slots.new(slot_name_full)
-    #                 self.created_slots.append(slot_name_full)
 
-    # def __create_slot(self, name):
-    #     name = "TEST"
+    def clear_node_tree(self):
+
+        for scene in bpy.data.scenes:
+            try:
+                scene.node_tree.nodes.clear()
+            except:
+                print("No nodes to clear...")

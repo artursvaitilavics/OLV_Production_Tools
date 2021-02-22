@@ -166,6 +166,7 @@ class OLV_OP_Passes(bpy.types.Operator):
                     except Exception as e:
                         print(e)
 
+        self.comp_nodes.clear_node_tree()
         self.comp_nodes.enable_nodes()
         self.comp_nodes.create_layers()
         self.comp_nodes.create_file_output()
