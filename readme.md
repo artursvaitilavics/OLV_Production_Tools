@@ -5,7 +5,6 @@ OLV Production Tools
 For new Network, "settings.jsone" must be updated
 
 
-################################ ---- ###################################
 
 ################################# admin ######################################
 change dirrectories for "Xdrive path" and "Assets Path" in settings.json which
@@ -55,11 +54,21 @@ CTRL+SHIFT+X
 
 
 
-1. Create directory in OLV_Tools called: assets_system_link
-2. Pace LON_DepthBox.blend in this directory
-3. Create directory in OLV_Tools called: x_disk_system_link
+DOC:
 
-Place this plugin in your BlenderRender/scripts/addons/ directory
+Project:
+    Set Project File - Creates new MS project file.
+    New Project - Creates project folder structure on Xdrive
+    Save File - renames current file to selected project name, and saves it in appropriate project folder -> production -> 3D
 
+Global Settings:
+    Resolution Percentage - Sets resolution to all scens in .blend file
+    Render Samples - Sets samples for all scenes in .blend file
+    Passes - Sets choses render passes to all view layers with the same name across all scenes, 
+                Also creates all necessary compositin nodes, RenderLayer, FileOutput and Denoise nodes.
+            WARNING: Will delete any compositing nodes, that are currently created. 
+            ERRORS: Little issue with Denoise node, it sometimes won't connect to File Output node.
+    New View Layer - Creates new view layer across all scenes.
 
-suggestion, use SymLink fo
+Objects:
+    Link to all scenes - links all selected object to all scenes. But only if selected in view port, won't work for Collections
