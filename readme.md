@@ -5,7 +5,7 @@ OLV Production Tools
 For new Network, "settings.jsone" must be updated
 
 
-################################ Installation ###################################
+################################ ---- ###################################
 
 ################################# admin ######################################
 change dirrectories for "Xdrive path" and "Assets Path" in settings.json which
@@ -28,15 +28,27 @@ to:
     "Assets path": "X:\\Transfer\\ArtursV\\Assets\\"
     "Render Path": "//../../02_Assets/02_3D/"
 }
-#################################### user ################################################
 
 
-cmd -> run as Administrator ->
--> paste this command ->
+#################################### Installation ################################################
+
+Windows:
+
+windows search -> cmd -> run as Administrator ->
+-> paste command:
+
 
 mklink /D "C:\Program Files\Blender Foundation\Blender 2.90\2.90\scripts\addons\OLV_Production_Tools" "X:\Transfer\ArtursV\addons\OLV_Production_Tools"
 
--> open blender -> enable OLV Tools Plugin -> enjoye Errors
+
+IMPORTANT:
+------------    make sure "Blender 2.90\2.90" is same version as installed on your PC  -----------------------
+
+
+-> open blender -> Preferences -> addons -> enable OLV Tools Plugin -> now you can acces olv plugins by having your mouse over 3D Viewport and press:
+CTRL+SHIFT+X
+-> TEST IT -> send feedback, errors and additional update suggestions
+
 
 
 ######################################################################

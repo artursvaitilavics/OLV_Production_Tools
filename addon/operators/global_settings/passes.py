@@ -170,6 +170,7 @@ class OLV_OP_Passes(bpy.types.Operator):
         self.comp_nodes.enable_nodes()
         self.comp_nodes.create_layers()
         self.comp_nodes.create_file_output()
+        self.comp_nodes.set_relative_render_path()
 
         group = self.enabled_pass(prop_group)
 

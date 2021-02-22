@@ -65,13 +65,13 @@ class CompNodes:
                                     links.new(
                                         node.outputs[key], output_node.inputs[socket])
 
-# Bellow stuff in function should be seperated from here
-                                if key == "Denoising Normal" and pass_name == "Denoise":
+# Bellow stuff in function should be seperated from here and connect new denoise to input slot in file output node
+                                if key == "Denoising Normal" and pass_name == "Denoise" and layer_name == node.layer:
                                     # Make only as many Denoise nodes, as needed! Currently too shitty
                                     denoise_node = self.__create_denoise_node(
                                         scene)
                                     self.__link_denoise_node(
-                                        scene, node, denoise_node)
+                                        scene, node, denoise_node, output_node)
 
     def __create_slot(self, scene, view_layer_name, render_pass_name):
         combined_name = scene.name + "_" + view_layer_name + "_" + render_pass_name
@@ -100,8 +100,9 @@ class CompNodes:
         denoise_node = scene.node_tree.nodes.new(type="CompositorNodeDenoise")
         return denoise_node
 
-    def __link_denoise_node(self, scene, layer_node, denoise_node):
-        output_node = scene.node_tree.nodes[self.output_node_name]
+    def __link_denoise_node(self, scene, layer_node, denoise_node, output_node):
+        # output_node = scene.node_tree.nodes[self.output_node_name]
+        print(scene.name, layer_node.name, denoise_node.name, output_node.name)
         links = scene.node_tree.links
         links.new(layer_node.outputs['Noisy Image'], denoise_node.inputs[0])
         links.new(layer_node.outputs['Denoising Normal'],
@@ -121,7 +122,6 @@ class CompNodes:
             pass_name = ssocket_string_list[-2]
             if pass_name == "Denoise":
                 return_value = socket
-                print(socket)
             else:
                 return_value == ""
         return return_value
@@ -133,3 +133,10 @@ class CompNodes:
                 scene.node_tree.nodes.clear()
             except:
                 print("No nodes to clear...")
+
+    def set_relative_render_path(self):
+        for scene in bpy.data.scenes:
+            for node in scene.node_tree.nodes:
+                if node.name == self.output_node_name:
+                    node.base_path = self.settings.get_relative_render_path()
+
