@@ -54,7 +54,7 @@ CTRL+SHIFT+X
 
 
 
-DOC:
+
 
 Project:
     Set Project File - Creates new MS project file.
@@ -68,7 +68,7 @@ Global Settings:
                 Also creates all necessary compositin nodes, RenderLayer, FileOutput and Denoise nodes.
             WARNING: Will delete any compositing nodes, that are currently created. 
             ERRORS: Little issue with Denoise node, it sometimes won't connect to File Output node.
-    New View Layer - Creates new view layer across all scenes.
+    New View Layer - Creates new view layer across all scenes. (please dont use _ in name of layer, "NewLayerName" this convention is better, at the moment!)
 
 Objects:
     Link to all scenes - links all selected object to all scenes. But only if selected in view port, won't work for Collections
