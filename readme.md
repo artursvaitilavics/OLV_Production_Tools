@@ -16,7 +16,15 @@ from:
 {
     "Xdrive path": "/home/artursvaitilavics/test_paths/test_x_disk/",
     "Assets path": "/home/artursvaitilavics/test_paths/test_assets/",
-    "Render Path": "//../../02_Assets/02_3D/"
+    "Render Path": "//../../02_Assets/02_3D/",
+    "Cycles Settings": {
+
+    },
+    "Nodes": [
+            "CompositorNodeRLayers",
+            "CompositorNodeDenoise",
+            "CompositorNodeOutputFile"
+        ]
 }
 
 
@@ -24,8 +32,16 @@ to:
 
 {
     "Xdrive path": "X:\\SSDstorage\\",
-    "Assets path": "X:\\Transfer\\ArtursV\\Assets\\"
-    "Render Path": "//../../02_Assets/02_3D/"
+    "Assets path": "X:\\Transfer\\ArtursV\\Assets\\",
+    "Render Path": "//../../02_Assets/02_3D/",
+    "Cycles Settings": {
+
+    },
+    "Nodes": [
+            "CompositorNodeRLayers",
+            "CompositorNodeDenoise",
+            "CompositorNodeOutputFile"
+        ]
 }
 
 
@@ -50,11 +66,9 @@ CTRL+SHIFT+X
 
 
 
-######################################################################
-
-
-
-
+###################################################################### Description #################################################################
+to acces tools:
+CTRL+SHIFT+X
 
 Project:
     Set Project File - Creates new MS project file.
