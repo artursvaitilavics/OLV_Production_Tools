@@ -2,6 +2,7 @@ import bpy
 from ...utility.settings import Settings
 from .passes_settings import PassesSettings
 from .active_render_passes import ActiveRenderPasses
+from .parse_sockets import ParseSockets
 
 
 class CompNodes:
@@ -12,6 +13,8 @@ class CompNodes:
 
     output_node_name = "File Output"
     render_layer_node_type = "R_LAYERS"
+
+    parse_sockets = ParseSockets()
 
     def create_layers(self):
         for scene in bpy.data.scenes:
@@ -52,26 +55,33 @@ class CompNodes:
             for node in scene.node_tree.nodes:
 
                 if node.type == self.render_layer_node_type:
-                    denoise_to_create = []
 
                     for key in node.outputs.keys():
-                        for socket in output_node.inputs.keys():
-                            ssocket_string_list = socket.split('_')
-                            layer_name = ssocket_string_list[-3]
-                            pass_name = ssocket_string_list[-2]
 
-                            if node.layer == layer_name:
-                                if key == pass_name:
-                                    links.new(
-                                        node.outputs[key], output_node.inputs[socket])
+                        for socket in output_node.inputs.keys():
+                            if self.__layer(socket, node.layer) and self.__pass(socket, key):
+                                links.new(
+                                    node.outputs[key], output_node.inputs[socket])
+
+                            # if self.__pass(socket, "Denoise"):
+                            #     print(socket, self.__pass(socket, "Denoise"))
+
+                        # for socket in output_node.inputs.keys():
+                        #     ssocket_string_list = socket.split('_')
+                        #     layer_name = ssocket_string_list[-3]
+                        #     pass_name = ssocket_string_list[-2]
+
+                        #     if node.layer == layer_name:
+                        #         if key == pass_name:
+                        #             links.new(
+                        #                 node.outputs[key], output_node.inputs[socket])
 
 # Bellow stuff in function should be seperated from here and connect new denoise to input slot in file output node
-                                if key == "Denoising Normal" and pass_name == "Denoise" and layer_name == node.layer:
-                                    # Make only as many Denoise nodes, as needed! Currently too shitty
-                                    denoise_node = self.__create_denoise_node(
-                                        scene)
-                                    self.__link_denoise_node(
-                                        scene, node, denoise_node, output_node)
+                                # if key == "Denoising Normal" and pass_name == "Denoise" and layer_name == node.layer:
+                                #     denoise_node = self.__create_denoise_node(
+                                #         scene)
+                                #     self.__link_denoise_node(
+                                #         scene, node, denoise_node, output_node)
 
     def __create_slot(self, scene, view_layer_name, render_pass_name):
         combined_name = scene.name + "_" + view_layer_name + "_" + render_pass_name
@@ -96,23 +106,27 @@ class CompNodes:
         output_node = scene.node_tree.nodes.new(
             type="CompositorNodeOutputFile")
 
-    def __create_denoise_node(self, scene):
-        denoise_node = scene.node_tree.nodes.new(type="CompositorNodeDenoise")
-        return denoise_node
+    def __create_denoise_node(self, scene, render_layer_node):
+        for output in render_layer_node.outputs.keys():
+            if output == "Denoising Normal":
+                denoise_node = scene.node_tree.nodes.new(
+                    type="CompositorNodeDenoise")
+                return denoise_node
 
-    def __link_denoise_node(self, scene, layer_node, denoise_node, output_node):
-        # output_node = scene.node_tree.nodes[self.output_node_name]
-        print(scene.name, layer_node.name, denoise_node.name, output_node.name)
-        links = scene.node_tree.links
-        links.new(layer_node.outputs['Noisy Image'], denoise_node.inputs[0])
-        links.new(layer_node.outputs['Denoising Normal'],
-                  denoise_node.inputs['Normal'])
-        links.new(layer_node.outputs['Denoising Albedo'],
-                  denoise_node.inputs['Albedo'])
-
-        socket = self.__get_socket_pass_name(output_node)
-
-        links.new(denoise_node.outputs['Image'], output_node.inputs[socket])
+    def __link_denoise_node(self, scene, layer_node, denoise_node, socket):
+        try:
+            output_node = scene.node_tree.nodes[self.output_node_name]
+            links = scene.node_tree.links
+            links.new(
+                layer_node.outputs['Noisy Image'], denoise_node.inputs[0])
+            links.new(layer_node.outputs['Denoising Normal'],
+                      denoise_node.inputs['Normal'])
+            links.new(layer_node.outputs['Denoising Albedo'],
+                      denoise_node.inputs['Albedo'])
+            links.new(denoise_node.outputs['Image'],
+                      output_node.inputs[socket])
+        except:
+            print("EXCEPTION: Can't create denoise links...")
 
     def __get_socket_pass_name(self, output_node):
         return_value = ""
@@ -140,3 +154,57 @@ class CompNodes:
                 if node.name == self.output_node_name:
                     node.base_path = self.settings.get_relative_render_path()
 
+    def __get_socket(self, socket):
+        return self.parse_sockets.clean_socket(socket).get(("socket"))
+
+    def __pass(self, socket, required_pass):
+        return self.parse_sockets.clean_socket(socket).get("pass") == required_pass
+
+    def __layer(self, socket, required_layer):
+        return self.parse_sockets.clean_socket(socket).get("layer") == required_layer
+
+    def __get_render_layer_nodes(self):
+        render_layer_nodes = []
+        for scene in bpy.data.scenes:
+            print("SCENE:", scene.name)
+            for node in scene.node_tree.nodes:
+                if node.type == self.render_layer_node_type:
+                    render_layer_nodes.append(node)
+        return render_layer_nodes
+
+    def new_cretae_denoise_nodes(self):
+        render_layer_nodes = self.__get_render_layer_nodes()
+
+        for render_layer_node in render_layer_nodes:
+            render_layer_node.scene.node_tree.links.new()
+            print(render_layer_node.scene.name)
+
+    def link_denoise(self):
+        for scene in bpy.data.scenes:
+            output_node = scene.node_tree.nodes[self.output_node_name]
+            links = scene.node_tree.links
+            for node in scene.node_tree.nodes:
+                if node.type == self.render_layer_node_type:
+                    layer_node = node
+                    node_layer = layer_node.layer
+                    print(node_layer)
+
+                    for socket in output_node.inputs:
+                        is_layer = self.__layer(socket.name, node_layer)
+                        is_pass = self.__pass(socket.name, "Denoise")
+
+                        if is_layer and is_pass:
+                            denoise_node = scene.node_tree.nodes.new(
+                                type="CompositorNodeDenoise")
+
+                            try:
+                                links.new(
+                                    layer_node.outputs['Noisy Image'], denoise_node.inputs[0])
+                                links.new(layer_node.outputs['Denoising Normal'],
+                                          denoise_node.inputs['Normal'])
+                                links.new(layer_node.outputs['Denoising Albedo'],
+                                          denoise_node.inputs['Albedo'])
+                                links.new(denoise_node.outputs['Image'],
+                                          output_node.inputs[socket.name])
+                            except:
+                                print("EXCEPTION: Can't create denoise links...")

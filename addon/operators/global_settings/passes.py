@@ -176,6 +176,8 @@ class OLV_OP_Passes(bpy.types.Operator):
 
         self.comp_nodes.create_slots()
         self.comp_nodes.create_links()
+        self.comp_nodes.link_denoise()
+        # self.comp_nodes.new_cretae_denoise_nodes()
 
 
 # Helper Methods
