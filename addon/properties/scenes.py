@@ -40,7 +40,7 @@ class OLV_Scenes():
     scene_17 = OLV_Scene('LON_Ride_Short', 'CYCLES', 'GPU', 512,
                          16, True, 'Standard', [3840, 1080], 900, 30, False, True)
     scene_18 = OLV_Scene('LON_Runway', 'CYCLES', 'GPU', 512,
-                         16, True, 'Standard', [9600, 2610], 900, 30, False, True)
+                         16, True, 'Standard', [9600, 2160], 900, 30, False, True)
 
     ms_project_scenes = [scene_01, scene_02, scene_03, scene_04, scene_05, scene_06, scene_07, scene_08,
                          scene_09, scene_10, scene_11, scene_12, scene_13, scene_14, scene_15, scene_16, scene_17, scene_18]

@@ -15,13 +15,13 @@ class OLV_OP_Create_New_Project(bpy.types.Operator):
     x_drive_path = get_path.get_x_drive_path()
 
     # TODO: Curently hard coded, to be replaced with json
-    sub_dir_00 = {'00_References': [
-        '01_From_Client', '02_Local', '03_From_SEA']}
-    sub_dir_01 = {'01_Concepts': ['01_Sketches', '02_Provided']}
-    sub_dir_02 = {'02_Assets': ['01_From_Client', '02_3D', '03_2D']}
-    sub_dir_03 = {'03_Production': ['01_3D', '02_AE']}
-    sub_dir_04 = {'04_Output': ['01_Crisp', '02_Review']}
-    sub_dir_05 = {'05_Temp': []}
+    sub_dir_00 = {'00_REFERENCES': [
+        'From_Client', 'Local', 'From_SEA']}
+    sub_dir_01 = {'01_CONCEPTS': ['Sketches', 'Provided']}
+    sub_dir_02 = {'02_ASSETS': ['From_Client', '3D', '2D']}
+    sub_dir_03 = {'03_PRODUCTION': ['3D', 'AE']}
+    sub_dir_04 = {'04_OUTPUT': ['Crisp', 'Review']}
+    sub_dir_05 = {'05_TEMP': []}
 
     # TODO: Create method that will add all subdirs from json file
     sub_directories = [sub_dir_00, sub_dir_01,

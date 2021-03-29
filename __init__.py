@@ -6,6 +6,8 @@ bl_info = {
     'blender': (2, 90, 1),
     'location': 'View3D',
     'category': '3D View'
+    # 'location': 'Compositing',
+    # 'category': 'Compositing',
 }
 
 def register():

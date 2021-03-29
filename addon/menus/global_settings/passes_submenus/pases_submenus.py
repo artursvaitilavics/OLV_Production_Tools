@@ -32,13 +32,3 @@ class OLV_MT_Data_Sub_Passes(bpy.types.Menu):
 
         col = layout.column(align=True)
         row = col.row(align=True)
-
-
-        # row.prop(scene, 'passes_value', text='Arturs Testing')
-
-        # scene = context.scene
-        # for key in keys:
-
-        # layout.label(text=key)
-
-        # row.prop('passes_value', text=key)

@@ -77,7 +77,7 @@ class OLV_OP_Create_Project_File(bpy.types.Operator):
         camera = bpy.data.cameras.new('Camera')
         camera_object = bpy.data.objects.new(scene_name, camera)
         camera_object.rotation_euler = (radians(90), 0, 0)
-        camera_object.location = (0, -5, 1)
+        camera_object.location = (0, 0, 0)
         return camera_object
 
     def import_LON_depth_boxes(self):

@@ -67,7 +67,7 @@ CTRL+SHIFT+X
 
 
 ###################################################################### Description #################################################################
-to acces tools:
+to acces tools in viewport:
 CTRL+SHIFT+X
 
 Project:
