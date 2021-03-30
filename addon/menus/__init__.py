@@ -7,6 +7,8 @@ from .object_menu import OLV_MT_Object_Menu
 from .project_list_menu import OLV_MT_Project_List_Menu
 from .global_settings.passes_menu import OLV_MT_Passes
 from .global_settings.passes_submenus.pases_submenus import OLV_MT_View_Layer_Sub_Passes, OLV_MT_Data_Sub_Passes
+from .global_settings.materials_menu import OLV_MT_Materials_Menu
+
 
 classes = {
     OLV_MT_Main_Menu,
@@ -16,7 +18,9 @@ classes = {
     OLV_MT_Project_List_Menu,
     OLV_MT_Passes,
     OLV_MT_View_Layer_Sub_Passes,
-    OLV_MT_Data_Sub_Passes
+    OLV_MT_Data_Sub_Passes,
+    OLV_MT_Materials_Menu
+    
 
 }
 

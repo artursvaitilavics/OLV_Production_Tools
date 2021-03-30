@@ -83,7 +83,8 @@ class CompNodes:
                                 #     self.__link_denoise_node(
                                 #         scene, node, denoise_node, output_node)
 
-    def __create_slot(self, scene, view_layer_name, render_pass_name):
+    def __create_slot(self, scene, view_layer_str, render_pass_name):
+        view_layer_name = view_layer_str
         combined_name = scene.name + "_" + view_layer_name + "_" + render_pass_name
         slot_name = combined_name + "/" + combined_name + "_"
         node = scene.node_tree.nodes[self.output_node_name]
