@@ -10,3 +10,5 @@ class OLV_MT_Object_Menu(bpy.types.Menu):
 
         layout.operator('olv.link_object_to_all_scenes',
                         text='Link to all scenes', icon='LINKED')
+
+        layout.menu('olv.mt_bulk_rename', text='Rename')
