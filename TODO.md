@@ -7,13 +7,6 @@
 7. Passes should smoothly work also for Eevee
 8. Created nodes should be sorted in readably manner
 
-9. Possibility to globaly change Samples and Material for Material Overrides:
-    - create operation for overrides
-    - create menu for overrides that calls operation 
-    - in operations need a list of all materials
-    - need to assign this list to the class properties, that would be displayed when calling operator
-    - click on material would assign this to a blender material override
-
 
 13. Output directories :
     3DRenders => blend file name => Scene => Layer => Pass

@@ -44,8 +44,8 @@ class CompNodes:
                 for key in passes:
                     if passes[key]:
                         # Here we can finaly create slots!!!! LIKE A MOZA FOKA
-                        socket = self.__create_slot(
-                            scene, view_layer.name, key)
+                        socket = self.__create_slot(scene,
+                            view_layer.name, key)
 
     def create_links(self):
 
@@ -63,34 +63,14 @@ class CompNodes:
                                 links.new(
                                     node.outputs[key], output_node.inputs[socket])
 
-                            # if self.__pass(socket, "Denoise"):
-                            #     print(socket, self.__pass(socket, "Denoise"))
-
-                        # for socket in output_node.inputs.keys():
-                        #     ssocket_string_list = socket.split('_')
-                        #     layer_name = ssocket_string_list[-3]
-                        #     pass_name = ssocket_string_list[-2]
-
-                        #     if node.layer == layer_name:
-                        #         if key == pass_name:
-                        #             links.new(
-                        #                 node.outputs[key], output_node.inputs[socket])
-
-# Bellow stuff in function should be seperated from here and connect new denoise to input slot in file output node
-                                # if key == "Denoising Normal" and pass_name == "Denoise" and layer_name == node.layer:
-                                #     denoise_node = self.__create_denoise_node(
-                                #         scene)
-                                #     self.__link_denoise_node(
-                                #         scene, node, denoise_node, output_node)
-
-    def __create_slot(self, scene, view_layer_str, render_pass_name):
+# REBUILD view_layer/pass
+    def __create_slot(self,scene, view_layer_str, render_pass_name):
         view_layer_name = view_layer_str
-        combined_name = scene.name + "_" + view_layer_name + "_" + render_pass_name
-        slot_name = combined_name + "/" + combined_name + "_"
+        combined_name = view_layer_name + "/" + render_pass_name + "_"
+        # slot_name = combined_name + "/" + combined_name + "_"
         node = scene.node_tree.nodes[self.output_node_name]
-        # node.file_slots.clear()
         node.file_slots.new(
-            slot_name)
+            combined_name)
 
     def __get_view_layers(self, scene):
         layer_names = []
@@ -142,7 +122,6 @@ class CompNodes:
         return return_value
 
     def clear_node_tree(self):
-
         for scene in bpy.data.scenes:
             try:
                 scene.node_tree.nodes.clear()
@@ -153,7 +132,8 @@ class CompNodes:
         for scene in bpy.data.scenes:
             for node in scene.node_tree.nodes:
                 if node.name == self.output_node_name:
-                    node.base_path = self.settings.get_relative_render_path()
+                    # ------------ Seting base Path
+                    node.base_path = self.settings.get_relative_render_path(scene.name)
 
     def __get_socket(self, socket):
         return self.parse_sockets.clean_socket(socket).get(("socket"))
