@@ -9,6 +9,7 @@ from .save_project_file import OLV_OP_Save_Project_File
 from .global_settings.passes import OLV_OP_Passes
 from .global_settings.view_layers import OLV_OP_View_Layers
 from .global_settings.layer_material_overrides import OLV_OP_Layer_Material_Overrides
+
 # from .global_settings.material_sample_override import OLV_OP_Material_Sample_Overrides
 # from .global_settings.passes_to_nodes import OLV_OP_Passes_To_Nodes
 # from .project_building.comporitor_output_nodes import OLV_OP_Create_Output_Nodes
@@ -24,6 +25,7 @@ classes = (
     OLV_OP_Passes,
     OLV_OP_View_Layers,
     OLV_OP_Layer_Material_Overrides,
+    OLV_OP_Bulk_Rename
     # OLV_OP_Material_Sample_Overrides
     # OLV_OP_Passes_To_Nodes
     # OLV_OP_Create_Output_Nodes
