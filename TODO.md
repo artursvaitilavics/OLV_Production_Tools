@@ -8,9 +8,7 @@
 8. Created nodes should be sorted in readably manner
 
 
-13. Output directories :
-    3DRenders => blend file name => Scene => Layer => Pass
-
+              
 16. Global Settings should have option: Set World for all scenes.
 
 18. Compositing nodes, could update instead of reset

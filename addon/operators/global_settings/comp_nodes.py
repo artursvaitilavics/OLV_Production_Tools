@@ -45,7 +45,7 @@ class CompNodes:
                     if passes[key]:
                         # Here we can finaly create slots!!!! LIKE A MOZA FOKA
                         socket = self.__create_slot(scene,
-                            view_layer.name, key)
+                                                    view_layer.name, key)
 
     def create_links(self):
 
@@ -64,7 +64,7 @@ class CompNodes:
                                     node.outputs[key], output_node.inputs[socket])
 
 # REBUILD view_layer/pass
-    def __create_slot(self,scene, view_layer_str, render_pass_name):
+    def __create_slot(self, scene, view_layer_str, render_pass_name):
         view_layer_name = view_layer_str
         combined_name = view_layer_name + "/" + render_pass_name + "_"
         # slot_name = combined_name + "/" + combined_name + "_"
@@ -112,14 +112,27 @@ class CompNodes:
     def __get_socket_pass_name(self, output_node):
         return_value = ""
         for socket in output_node.inputs.keys():
-            ssocket_string_list = socket.split('_')
-            layer_name = ssocket_string_list[-3]
-            pass_name = ssocket_string_list[-2]
+            ssocket_string_list = socket.split('/')
+            layer_name = ssocket_string_list[0]
+            pass_value = ssocket_string_list[1]
+            pass_name = pass_value.split('_')
+            pass_name = pass_name[0]
             if pass_name == "Denoise":
                 return_value = socket
             else:
                 return_value == ""
         return return_value
+    # def __get_socket_pass_name(self, output_node):
+    #         return_value = ""
+    #     for socket in output_node.inputs.keys():
+    #         ssocket_string_list = socket.split('_')
+    #         layer_name = ssocket_string_list[-3]
+    #         pass_name = ssocket_string_list[-2]
+    #         if pass_name == "Denoise":
+    #             return_value = socket
+    #         else:
+    #             return_value == ""
+    #     return return_value
 
     def clear_node_tree(self):
         for scene in bpy.data.scenes:
@@ -133,7 +146,8 @@ class CompNodes:
             for node in scene.node_tree.nodes:
                 if node.name == self.output_node_name:
                     # ------------ Seting base Path
-                    node.base_path = self.settings.get_relative_render_path(scene.name)
+                    node.base_path = self.settings.get_relative_render_path(
+                        scene.name)
 
     def __get_socket(self, socket):
         return self.parse_sockets.clean_socket(socket).get(("socket"))
