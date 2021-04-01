@@ -14,7 +14,17 @@ class OLV_OP_Bulk_Rename(bpy.types.Operator):
     def execute(self, context):
         counter = 1
         for selected_object in bpy.context.selected_objects:
-            selected_object.name = self.name + '_' + str(counter)
+            selected_object.name = self.name + '.' + self.check_counter(counter)
             counter = counter + 1
 
         return {'FINISHED'}
+
+    def check_counter(self, counter):
+        if counter <= 9:
+            return '000' + str(counter)
+        elif counter <= 99:
+            return '00' + str(counter)
+        elif counter <= 999:
+            return '0' + str(counter)
+        else:
+            return counter

@@ -24,6 +24,11 @@
 24. Proper Material Library, have Material Master file on server. And we can access all those files from Active Blender Scene
     Copy the materilas in to current Blender File, and all necesary textures to the Active Project Assets directory.
 25. Renaming tool - Bulk rename, add/remove/edit suffixes/preffexes.
+Add otopns:
+choose how many zeroes you have when renaming, now it's _1 _2 _3... there should be an option for _01 _02, _001 _002 etc.
+When adding sufix add check for numbers, if there're then sufix should be added before numbers, now Sphere.001_FOR_FUN, should be Sphere_FOR_FUN.001, toggle for this option would be nice.
+Also if let's say you made a mistake and want to adjust prefix/sufix, you should have replace option, where you type what to look for and what to replace it with.
+
 26. If Mesh has unique material, then it should take the name of the mesh, and add suffix "_mat"
 27. OPTIONAL - Renaming of the baked textures on the disk. (idea update comming soon from Marius)
 12. OPTIONAL - Temp directory might not be needed.

@@ -11,10 +11,11 @@ class OLV_MT_Bulk_Rename(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
         lo = layout.operator('olv.op_bulk_rename', text='rename selected')
-        layout.operator('olv.op_bulk_suffix', text='add suffix to selected')
-        layout.operator('olv.op_bulk_prefix', text='add prefix to selected')
-        
+        suffix_layout = layout.operator(
+            'olv.op_bulk_suffix', text='add suffix to selected')
+        prefix_layout = layout.operator(
+            'olv.op_bulk_prefix', text='add prefix to selected')
 
         # for option in self.options:
         #     lo = layout.operator('olv.op_bulk_rename', text=option)
-            # lo.operation = option
+        # lo.operation = option
