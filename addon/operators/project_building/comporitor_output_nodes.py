@@ -22,7 +22,7 @@ class OLV_OP_Create_Output_Nodes():
             scene.use_nodes = True
             nodes = scene.node_tree.nodes
             self.create_nodes(nodes)
-            self.create_output_file_slots(nodes['File Output'])
+            self.create_output_file_slots(nodes['File Output'], scene.name)
             self.link_layer_to_denoise(
                 nodes['Render Layers'], nodes['Denoise'], nodes['File Output'])
 
@@ -48,9 +48,9 @@ class OLV_OP_Create_Output_Nodes():
 
         links.new(denoise.outputs['Image'], output.inputs[self.slot_name()])
 
-    def create_output_file_slots(self, node):
+    def create_output_file_slots(self, node, scene_name):
         # TODO: replace path with settings relative path
-        node.base_path = self.settings.get_relative_render_path()
+        node.base_path = self.settings.get_relative_render_path(scene_name)
         # node.base_path = '//../../02_Assets/02_3D/'
         node.file_slots.clear()
         slot = node.file_slots.new(self.slot_name())

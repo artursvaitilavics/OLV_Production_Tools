@@ -140,7 +140,7 @@ class CreateCompNodes:
         output_node = scene.node_tree.nodes.new(
             type="CompositorNodeOutputFile")
         output_node.file_slots.clear()
-        output_node.base_path = self.settings.get_relative_render_path()
+        output_node.base_path = self.settings.get_relative_render_path(scene.name)
 
     def clear_slots(self, scene):
         self.enable_nodes(scene)
