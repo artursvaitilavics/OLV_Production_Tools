@@ -15,5 +15,5 @@ class OLV_MT_Materials_Menu(bpy.types.Menu):
 
         for material in materials:
             lo = layout.operator(
-                'olv.op_layer_material_overrides', text=material)
+                'olv.op_layer_material_overrides', text=material, icon='MATERIAL')
             lo.material_name = material

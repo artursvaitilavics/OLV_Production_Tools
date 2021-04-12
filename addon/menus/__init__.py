@@ -11,6 +11,7 @@ from .global_settings.materials_menu import OLV_MT_Materials_Menu
 from .object.bulk_rename import OLV_MT_Bulk_Rename
 
 
+
 classes = {
     OLV_MT_Main_Menu,
     OLV_MT_Name_New_Project_Menu,
@@ -22,7 +23,6 @@ classes = {
     OLV_MT_Data_Sub_Passes,
     OLV_MT_Materials_Menu,
     OLV_MT_Bulk_Rename
-
 
 }
 

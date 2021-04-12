@@ -1,15 +1,16 @@
-1. Call to Passes pluggins menu to work inside compsitor not only in viewport
+
 4. Make visible for which layers we are creating nodes/ enabling passes.
 4.1. Have a matrix menu with checkboxes for Scenes => Layers => Passes. This is so we can chose
     specific scenes and layers, for which we need to enable global passes...
-5. RenderLayer node not connected to Output Node's slots, if layer name contains _
+
 6. Coppy view layers from scene to newly created scenes.
+
 7. Passes should smoothly work also for Eevee
+
 8. Created nodes should be sorted in readably manner
 
 
-              
-16. Global Settings should have option: Set World for all scenes.
+
 
 18. Compositing nodes, could update instead of reset
     - list of all nodes and their inputs names and so on.

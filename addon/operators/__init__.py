@@ -12,6 +12,7 @@ from .global_settings.layer_material_overrides import OLV_OP_Layer_Material_Over
 from .object.bulk_rename import OLV_OP_Bulk_Rename
 from .object.bulk_suffix import OLV_OP_Bulk_Suffix
 from .object.bulk_prefix import OLV_OP_Bulk_Prefix
+from .global_settings.set_world import  OLV_OP_Set_World
 
 # from .global_settings.material_sample_override import OLV_OP_Material_Sample_Overrides
 # from .global_settings.passes_to_nodes import OLV_OP_Passes_To_Nodes
@@ -30,7 +31,9 @@ classes = (
     OLV_OP_Layer_Material_Overrides,
     OLV_OP_Bulk_Rename,
     OLV_OP_Bulk_Suffix,
-    OLV_OP_Bulk_Prefix
+    OLV_OP_Bulk_Prefix,
+    OLV_OP_Set_World
+
     # OLV_OP_Material_Sample_Overrides
     # OLV_OP_Passes_To_Nodes
     # OLV_OP_Create_Output_Nodes
